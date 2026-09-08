@@ -93,6 +93,226 @@ tailwind.config = {
 <div id="aparelho">
 
   <main>
+    <section data-tela="painel-de-vendas" class="hidden">
+  <style>
+    .pv-card{background:#fff;border:1px solid #e6e2da;border-radius:16px;box-shadow:0 1px 2px rgba(28,42,58,.04)}
+    .pv-kpi{padding:14px;text-align:left;width:100%;transition:.15s}
+    .pv-kpi:active{transform:scale(.97)}
+    .pv-lbl{font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:#8a8378;font-weight:600}
+    .pv-bar{background:#1c3d5a;border-radius:4px 4px 0 0;width:100%;transition:height .4s}
+    .pv-chip{font-size:11px;padding:3px 9px;border-radius:999px;font-weight:600}
+  </style>
+
+  <div class="px-4 pt-4 pb-24 bg-[#f7f5f1]">
+
+    <div class="flex items-center gap-3 mb-4">
+      <div class="w-12 h-12 rounded-full bg-[#1c3d5a] text-white flex items-center justify-center text-lg font-bold">RM</div>
+      <div class="flex-1">
+        <p class="text-[13px] text-[#8a8378]" id="pv-saudacao">Boa tarde,</p>
+        <p class="text-[17px] font-bold text-[#1c2a3a] leading-tight">Rafael Menezes</p>
+      </div>
+      <button onclick="mostrarTela('agenda')" class="relative w-10 h-10 rounded-full bg-white border border-[#e6e2da] flex items-center justify-center">
+        <span class="text-lg">🔔</span>
+        <span class="absolute -top-0.5 -right-0.5 w-4 h-4 rounded-full bg-[#e2703a] text-white text-[10px] flex items-center justify-center font-bold">3</span>
+      </button>
+    </div>
+
+    <div class="pv-card p-4 mb-3 bg-[#1c3d5a] border-[#1c3d5a]">
+      <p class="text-[11px] uppercase tracking-wider text-[#9fc0d8] font-semibold">Faturamento de Março</p>
+      <p class="text-white text-[30px] font-bold leading-tight mt-1">R$ 187.430<span class="text-[18px] text-[#9fc0d8]">,00</span></p>
+      <div class="flex items-center gap-2 mt-1 mb-3">
+        <span class="pv-chip bg-[#2f7d5d] text-white">▲ 14,2%</span>
+        <span class="text-[12px] text-[#9fc0d8]">vs. fevereiro</span>
+      </div>
+      <div class="h-2 rounded-full bg-[#0f2a41] overflow-hidden">
+        <div class="h-full bg-[#e2703a] rounded-full" style="width:78%"></div>
+      </div>
+      <div class="flex justify-between mt-1.5">
+        <span class="text-[11px] text-[#9fc0d8]">Meta: R$ 240.000</span>
+        <span class="text-[11px] text-white font-semibold">78% atingido</span>
+      </div>
+      <button onclick="mostrarTela('relatorios')" class="w-full mt-3 py-2.5 rounded-xl bg-white/10 text-white text-[13px] font-semibold border border-white/15">Ver relatório completo</button>
+    </div>
+
+    <div class="grid grid-cols-2 gap-3 mb-4">
+      <button onclick="mostrarTela('novo-orcamento')" class="pv-card pv-kpi">
+        <p class="pv-lbl">Pedidos em aberto</p>
+        <p class="text-[26px] font-bold text-[#1c2a3a] leading-tight mt-0.5">14</p>
+        <p class="text-[12px] text-[#e2703a] font-semibold">R$ 62.180 em negociação</p>
+      </button>
+      <button onclick="mostrarTela('clientes')" class="pv-card pv-kpi">
+        <p class="pv-lbl">Clientes ativos</p>
+        <p class="text-[26px] font-bold text-[#1c2a3a] leading-tight mt-0.5">238</p>
+        <p class="text-[12px] text-[#2f7d5d] font-semibold">+9 neste mês</p>
+      </button>
+    </div>
+
+    <div class="pv-card p-4 mb-4">
+      <div class="flex items-center justify-between mb-3">
+        <p class="text-[14px] font-bold text-[#1c2a3a]">Vendas por período</p>
+        <div class="flex bg-[#f0ede7] rounded-lg p-0.5" id="pv-filtros">
+          <button onclick="painel_de_vendas_periodo('semana',this)" class="px-2.5 py-1 text-[11px] font-semibold rounded-md text-[#8a8378]">Semana</button>
+          <button onclick="painel_de_vendas_periodo('mes',this)" class="px-2.5 py-1 text-[11px] font-semibold rounded-md bg-white text-[#1c3d5a] shadow-sm">Mês</button>
+          <button onclick="painel_de_vendas_periodo('tri',this)" class="px-2.5 py-1 text-[11px] font-semibold rounded-md text-[#8a8378]">Tri</button>
+        </div>
+      </div>
+      <div class="flex items-end gap-2 h-28" id="pv-grafico"></div>
+      <div class="flex gap-2 mt-2" id="pv-rotulos"></div>
+      <p class="text-[12px] text-[#8a8378] mt-3 pt-3 border-t border-[#f0ede7]" id="pv-resumo">Melhor semana: 17 a 23/03 com R$ 54.900 em 11 pedidos.</p>
+    </div>
+
+    <div class="flex items-center justify-between mb-2">
+      <p class="text-[14px] font-bold text-[#1c2a3a]">Próximos compromissos</p>
+      <button onclick="mostrarTela('agenda')" class="text-[12px] font-semibold text-[#e2703a]">Ver agenda</button>
+    </div>
+    <div class="space-y-2 mb-5">
+      <button onclick="mostrarTela('ficha-do-cliente')" class="pv-card w-full p-3 flex gap-3 items-center text-left">
+        <div class="w-12 shrink-0 text-center">
+          <p class="text-[15px] font-bold text-[#1c3d5a] leading-none">09:30</p>
+          <p class="text-[10px] text-[#8a8378] mt-0.5">hoje</p>
+        </div>
+        <div class="w-px self-stretch bg-[#f0ede7]"></div>
+        <div class="flex-1 min-w-0">
+          <p class="text-[13px] font-semibold text-[#1c2a3a] truncate">Visita — Metalúrgica Andrade</p>
+          <p class="text-[12px] text-[#8a8378] truncate">Av. das Indústrias, 1240 — São Bernardo</p>
+        </div>
+        <span class="pv-chip bg-[#fde8dd] text-[#c2551f]">Visita</span>
+      </button>
+      <button onclick="mostrarTela('novo-orcamento')" class="pv-card w-full p-3 flex gap-3 items-center text-left">
+        <div class="w-12 shrink-0 text-center">
+          <p class="text-[15px] font-bold text-[#1c3d5a] leading-none">14:00</p>
+          <p class="text-[10px] text-[#8a8378] mt-0.5">hoje</p>
+        </div>
+        <div class="w-px self-stretch bg-[#f0ede7]"></div>
+        <div class="flex-1 min-w-0">
+          <p class="text-[13px] font-semibold text-[#1c2a3a] truncate">Apresentar orçamento #2841</p>
+          <p class="text-[12px] text-[#8a8378] truncate">Construtora Vale Verde · R$ 18.750</p>
+        </div>
+        <span class="pv-chip bg-[#dbeafe] text-[#1c3d5a]">Reunião</span>
+      </button>
+      <button onclick="mostrarTela('agenda')" class="pv-card w-full p-3 flex gap-3 items-center text-left">
+        <div class="w-12 shrink-0 text-center">
+          <p class="text-[15px] font-bold text-[#1c3d5a] leading-none">08:15</p>
+          <p class="text-[10px] text-[#8a8378] mt-0.5">qui, 27</p>
+        </div>
+        <div class="w-px self-stretch bg-[#f0ede7]"></div>
+        <div class="flex-1 min-w-0">
+          <p class="text-[13px] font-semibold text-[#1c2a3a] truncate">Retorno — Padaria Dona Ilda</p>
+          <p class="text-[12px] text-[#8a8378] truncate">Renovação de contrato anual</p>
+        </div>
+        <span class="pv-chip bg-[#e4f2ea] text-[#2f7d5d]">Ligação</span>
+      </button>
+    </div>
+
+    <p class="text-[14px] font-bold text-[#1c2a3a] mb-2">Atalhos</p>
+    <div class="grid grid-cols-3 gap-3 mb-5">
+      <button onclick="mostrarTela('clientes')" class="pv-card py-4 flex flex-col items-center gap-1.5">
+        <span class="text-[22px]">👥</span>
+        <span class="text-[12px] font-semibold text-[#1c2a3a]">Clientes</span>
+      </button>
+      <button onclick="mostrarTela('novo-orcamento')" class="pv-card py-4 flex flex-col items-center gap-1.5">
+        <span class="text-[22px]">🧾</span>
+        <span class="text-[12px] font-semibold text-[#1c2a3a]">Orçamento</span>
+      </button>
+      <button onclick="mostrarTela('relatorios')" class="pv-card py-4 flex flex-col items-center gap-1.5">
+        <span class="text-[22px]">📦</span>
+        <span class="text-[12px] font-semibold text-[#1c2a3a]">Catálogo</span>
+      </button>
+    </div>
+
+    <div class="flex items-center justify-between mb-2">
+      <p class="text-[14px] font-bold text-[#1c2a3a]">Últimos pedidos</p>
+      <button onclick="mostrarTela('relatorios')" class="text-[12px] font-semibold text-[#e2703a]">Todos</button>
+    </div>
+    <div class="pv-card divide-y divide-[#f0ede7] mb-4">
+      <button onclick="painel_de_vendas_abrir('#2841','Construtora Vale Verde')" class="w-full p-3 flex items-center gap-3 text-left">
+        <div class="flex-1 min-w-0">
+          <p class="text-[13px] font-semibold text-[#1c2a3a] truncate">Construtora Vale Verde</p>
+          <p class="text-[11px] text-[#8a8378]">Orçamento #2841 · 24/03</p>
+        </div>
+        <div class="text-right">
+          <p class="text-[13px] font-bold text-[#1c2a3a]">R$ 18.750</p>
+          <span class="pv-chip bg-[#fef3c7] text-[#92400e]">Aguardando</span>
+        </div>
+      </button>
+      <button onclick="painel_de_vendas_abrir('#2838','Metalúrgica Andrade')" class="w-full p-3 flex items-center gap-3 text-left">
+        <div class="flex-1 min-w-0">
+          <p class="text-[13px] font-semibold text-[#1c2a3a] truncate">Metalúrgica Andrade</p>
+          <p class="text-[11px] text-[#8a8378]">Pedido #2838 · 22/03</p>
+        </div>
+        <div class="text-right">
+          <p class="text-[13px] font-bold text-[#1c2a3a]">R$ 41.200</p>
+          <span class="pv-chip bg-[#e4f2ea] text-[#2f7d5d]">Aprovado</span>
+        </div>
+      </button>
+      <button onclick="painel_de_vendas_abrir('#2835','Supermercado Lopes')" class="w-full p-3 flex items-center gap-3 text-left">
+        <div class="flex-1 min-w-0">
+          <p class="text-[13px] font-semibold text-[#1c2a3a] truncate">Supermercado Lopes</p>
+          <p class="text-[11px] text-[#8a8378]">Pedido #2835 · 19/03</p>
+        </div>
+        <div class="text-right">
+          <p class="text-[13px] font-bold text-[#1c2a3a]">R$ 7.980</p>
+          <span class="pv-chip bg-[#e4f2ea] text-[#2f7d5d]">Faturado</span>
+        </div>
+      </button>
+    </div>
+
+    <button onclick="mostrarTela('novo-orcamento')" class="w-full py-3.5 rounded-2xl bg-[#e2703a] text-white text-[15px] font-bold shadow-lg shadow-orange-900/10">+ Novo orçamento</button>
+  </div>
+
+  <div id="pv-toast" class="hidden fixed left-1/2 -translate-x-1/2 bottom-24 z-50 bg-[#1c2a3a] text-white text-[13px] px-4 py-2.5 rounded-xl shadow-xl"></div>
+
+  <script>
+    var painel_de_vendas_dados = {
+      semana:{v:[6.2,9.4,7.1,12.8,10.3,4.9],r:['Seg','Ter','Qua','Qui','Sex','Sáb'],t:'Melhor dia: quinta (26/03) com R$ 12.800 em 4 pedidos.'},
+      mes:{v:[38.5,44.2,54.9,32.1,17.7,0],r:['S1','S2','S3','S4','S5',''],t:'Melhor semana: 17 a 23/03 com R$ 54.900 em 11 pedidos.'},
+      tri:{v:[142.6,158.9,187.4,0,0,0],r:['Jan','Fev','Mar','','',''],t:'Crescimento acumulado de 31,4% no trimestre.'}
+    };
+    function painel_de_vendas_periodo(p, el){
+      if(el){
+        document.querySelectorAll('#pv-filtros button').forEach(function(b){
+          b.className='px-2.5 py-1 text-[11px] font-semibold rounded-md text-[#8a8378]';
+        });
+        el.className='px-2.5 py-1 text-[11px] font-semibold rounded-md bg-white text-[#1c3d5a] shadow-sm';
+      }
+      var d=painel_de_vendas_dados[p], max=Math.max.apply(null,d.v);
+      var g=document.getElementById('pv-grafico'), r=document.getElementById('pv-rotulos');
+      g.innerHTML='';r.innerHTML='';
+      d.v.forEach(function(v,i){
+        var h=max? Math.round(v/max*100):0;
+        var w=document.createElement('div');
+        w.className='flex-1 flex flex-col justify-end h-full cursor-pointer';
+        w.onclick=function(){painel_de_vendas_toast(d.r[i]||'—','R$ '+v.toFixed(1).replace('.',',')+' mil');};
+        w.innerHTML='<div class="pv-bar" style="height:'+(h<4?4:h)+'%;'+(v===max&&max>0?'background:#e2703a':'')+'"></div>';
+        g.appendChild(w);
+        var l=document.createElement('div');
+        l.className='flex-1 text-center text-[10px] text-[#8a8378] font-medium';
+        l.textContent=d.r[i];
+        r.appendChild(l);
+      });
+      document.getElementById('pv-resumo').textContent=d.t;
+    }
+    function painel_de_vendas_toast(t,s){
+      var e=document.getElementById('pv-toast');
+      e.textContent=t+' · '+s;
+      e.classList.remove('hidden');
+      clearTimeout(window.pvT);
+      window.pvT=setTimeout(function(){e.classList.add('hidden');},1800);
+    }
+    function painel_de_vendas_abrir(num,nome){
+      painel_de_vendas_toast(nome,'abrindo '+num);
+      setTimeout(function(){mostrarTela('ficha-do-cliente');},450);
+    }
+    (function(){
+      var h=new Date().getHours();
+      var s=h<12?'Bom dia,':(h<18?'Boa tarde,':'Boa noite,');
+      var el=document.getElementById('pv-saudacao');
+      if(el) el.textContent=s;
+      painel_de_vendas_periodo('mes',null);
+    })();
+  </script>
+</section>
+
     <!-- TELAS -->
   </main>
 
