@@ -762,6 +762,246 @@ tailwind.config = {
   </script>
 </section>
 
+    <section data-tela="novo-orcamento" class="hidden">
+  <style>
+    .no-card{background:#fff;border:1px solid #ece7d8;border-radius:1rem}
+    .no-lbl{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#8a8375;font-weight:700}
+    .no-inp{width:100%;background:#FAFAFA;border:1px solid #e4dfd0;border-radius:.7rem;padding:.6rem .75rem;font-size:14px;color:#0A0A0A;outline:none}
+    .no-inp:focus{border-color:#D4AF37;background:#fff}
+    .no-chip{border:1px solid #e4dfd0;border-radius:999px;padding:.35rem .8rem;font-size:12px;font-weight:600;color:#5b564b;background:#fff}
+    .no-chip.on{background:#0A0A0A;color:#D4AF37;border-color:#0A0A0A}
+  </style>
+
+  <div class="px-4 pt-4 pb-28 bg-[#FAFAFA] min-h-full">
+
+    <div class="flex items-center gap-3 mb-4">
+      <button onclick="mostrarTela('painel-de-vendas')" class="w-9 h-9 rounded-full bg-[#0A0A0A] text-[#D4AF37] flex items-center justify-center text-lg leading-none">‹</button>
+      <div>
+        <h2 class="text-xl font-bold text-[#0A0A0A] leading-tight" style="font-family:Georgia,serif">Novo Orçamento</h2>
+        <p class="text-[11px] text-[#8a8375]">ORC-2024-0187 · 12/06/2024</p>
+      </div>
+    </div>
+
+    <div class="no-card p-4 mb-3">
+      <div class="flex items-start justify-between">
+        <div>
+          <p class="no-lbl mb-1">Cliente</p>
+          <p id="no-cli-nome" class="font-bold text-[#0A0A0A]">Marcenaria Trevo Ltda.</p>
+          <p id="no-cli-doc" class="text-xs text-[#8a8375]">CNPJ 18.442.309/0001-70 · Sorocaba/SP</p>
+          <p id="no-cli-tel" class="text-xs text-[#8a8375]">Contato: Renata Salgado · (15) 99814-2207</p>
+        </div>
+        <button onclick="novo_orcamento_trocarCliente()" class="no-chip shrink-0">Trocar</button>
+      </div>
+      <div id="no-lista-clientes" class="hidden mt-3 border-t border-[#ece7d8] pt-3 space-y-2">
+        <button onclick="novo_orcamento_setCliente('Marcenaria Trevo Ltda.','CNPJ 18.442.309/0001-70 · Sorocaba/SP','Contato: Renata Salgado · (15) 99814-2207')" class="w-full text-left px-3 py-2 rounded-lg hover:bg-[#FAFAFA] border border-[#f0ecdf]">
+          <span class="block text-sm font-semibold">Marcenaria Trevo Ltda.</span><span class="block text-[11px] text-[#8a8375]">Sorocaba/SP · Cliente desde 2021</span></button>
+        <button onclick="novo_orcamento_setCliente('Padaria Pão de Ouro','CNPJ 07.559.118/0001-42 · Campinas/SP','Contato: Jorge Bittencourt · (19) 98220-1145')" class="w-full text-left px-3 py-2 rounded-lg hover:bg-[#FAFAFA] border border-[#f0ecdf]">
+          <span class="block text-sm font-semibold">Padaria Pão de Ouro</span><span class="block text-[11px] text-[#8a8375]">Campinas/SP · 3 pedidos no ano</span></button>
+        <button onclick="novo_orcamento_setCliente('Studio Lótus Estética','CNPJ 34.901.556/0001-08 · São Paulo/SP','Contato: Amanda Kuroda · (11) 97431-8890')" class="w-full text-left px-3 py-2 rounded-lg hover:bg-[#FAFAFA] border border-[#f0ecdf]">
+          <span class="block text-sm font-semibold">Studio Lótus Estética</span><span class="block text-[11px] text-[#8a8375]">São Paulo/SP · Lead quente</span></button>
+        <button onclick="mostrarTela('clientes')" class="w-full text-center text-xs font-bold text-[#0A0A0A] underline decoration-[#D4AF37] decoration-2 pt-1">Ver toda a carteira</button>
+      </div>
+    </div>
+
+    <div class="no-card p-4 mb-3">
+      <div class="flex items-center justify-between mb-3">
+        <p class="no-lbl">Itens do orçamento</p>
+        <button onclick="novo_orcamento_abrirCatalogo()" class="text-xs font-bold bg-[#0A0A0A] text-[#D4AF37] rounded-full px-3 py-1.5">+ Catálogo</button>
+      </div>
+      <div id="no-itens" class="space-y-2"></div>
+      <p id="no-vazio" class="hidden text-xs text-[#8a8375] py-3 text-center">Nenhum item. Abra o catálogo para adicionar.</p>
+    </div>
+
+    <div id="no-catalogo" class="hidden no-card p-4 mb-3">
+      <div class="flex items-center justify-between mb-2">
+        <p class="no-lbl">Catálogo de produtos e serviços</p>
+        <button onclick="novo_orcamento_abrirCatalogo()" class="text-xs text-[#8a8375]">fechar</button>
+      </div>
+      <input oninput="novo_orcamento_filtrar(this.value)" class="no-inp mb-3" placeholder="Buscar item...">
+      <div id="no-cat-lista" class="space-y-2 max-h-64 overflow-y-auto"></div>
+    </div>
+
+    <div class="no-card p-4 mb-3">
+      <div class="flex items-center justify-between mb-2">
+        <span class="text-sm text-[#5b564b]">Subtotal</span>
+        <span id="no-subtotal" class="text-sm font-semibold">R$ 0,00</span>
+      </div>
+      <div class="flex items-center justify-between gap-3 mb-2">
+        <span class="text-sm text-[#5b564b]">Desconto (%)</span>
+        <input id="no-desc" type="number" min="0" max="40" value="5" oninput="novo_orcamento_calc()" class="no-inp w-20 text-right py-1">
+      </div>
+      <div class="flex items-center justify-between border-t border-[#ece7d8] pt-3 mt-2">
+        <span class="text-sm font-bold text-[#0A0A0A]">Total</span>
+        <span id="no-total" class="text-2xl font-bold text-[#0A0A0A]" style="font-family:Georgia,serif">R$ 0,00</span>
+      </div>
+      <p id="no-parc" class="text-[11px] text-[#8a8375] text-right mt-1">—</p>
+    </div>
+
+    <div class="no-card p-4 mb-3">
+      <p class="no-lbl mb-2">Condição de pagamento</p>
+      <div class="flex flex-wrap gap-2 mb-4" id="no-pag">
+        <button onclick="novo_orcamento_pag(this,'À vista no Pix (3% off)',1)" class="no-chip on">Pix à vista</button>
+        <button onclick="novo_orcamento_pag(this,'Cartão em 3x sem juros',3)" class="no-chip">Cartão 3x</button>
+        <button onclick="novo_orcamento_pag(this,'Cartão em 6x sem juros',6)" class="no-chip">Cartão 6x</button>
+        <button onclick="novo_orcamento_pag(this,'Boleto 30/60 dias',2)" class="no-chip">Boleto 30/60</button>
+      </div>
+      <p class="no-lbl mb-2">Status do fluxo</p>
+      <div class="flex gap-2" id="no-status">
+        <button onclick="novo_orcamento_status(this,'Rascunho')" class="no-chip on flex-1">Rascunho</button>
+        <button onclick="novo_orcamento_status(this,'Enviado')" class="no-chip flex-1">Enviado</button>
+        <button onclick="novo_orcamento_status(this,'Aprovado')" class="no-chip flex-1">Aprovado</button>
+      </div>
+    </div>
+
+    <div class="no-card p-4 mb-3">
+      <div class="flex items-center justify-between mb-3">
+        <p class="no-lbl">Fotos e documentos</p>
+        <button onclick="novo_orcamento_anexar()" class="text-xs font-bold text-[#0A0A0A] border border-[#D4AF37] rounded-full px-3 py-1.5">+ Anexar</button>
+      </div>
+      <div id="no-anexos" class="grid grid-cols-3 gap-2"></div>
+    </div>
+
+    <div class="no-card p-4 mb-4">
+      <p class="no-lbl mb-2">Observações internas</p>
+      <textarea id="no-obs" rows="2" oninput="novo_orcamento_obs()" class="no-inp" placeholder="Ex.: entrega combinada para a obra da Vila Hortência"></textarea>
+      <p id="no-obs-eco" class="hidden mt-2 text-xs text-[#5b564b] bg-[#FAFAFA] border-l-2 border-[#D4AF37] pl-2 py-1"></p>
+    </div>
+
+    <div id="no-recibo" class="hidden no-card p-4 mb-4 border-[#D4AF37]">
+      <p class="text-sm font-bold text-[#0A0A0A] mb-1">✅ Orçamento enviado</p>
+      <p id="no-recibo-txt" class="text-xs text-[#5b564b]"></p>
+      <div class="flex gap-2 mt-3">
+        <button onclick="mostrarTela('ficha-do-cliente')" class="flex-1 text-xs font-bold border border-[#0A0A0A] rounded-full py-2">Ver ficha do cliente</button>
+        <button onclick="mostrarTela('agenda')" class="flex-1 text-xs font-bold border border-[#0A0A0A] rounded-full py-2">Agendar follow-up</button>
+      </div>
+    </div>
+
+    <div class="space-y-2">
+      <button onclick="novo_orcamento_enviar()" class="w-full bg-[#0A0A0A] text-[#D4AF37] font-bold py-3.5 rounded-xl text-sm">Enviar por WhatsApp com link de pagamento</button>
+      <div class="flex gap-2">
+        <button onclick="novo_orcamento_salvar()" class="flex-1 border border-[#0A0A0A] text-[#0A0A0A] font-bold py-3 rounded-xl text-sm">Salvar rascunho</button>
+        <button onclick="mostrarTela('relatorios')" class="flex-1 border border-[#e4dfd0] text-[#5b564b] font-semibold py-3 rounded-xl text-sm">Relatórios</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    var no_catalogo=[
+      {n:'Painel MDF Amadeirado 18mm',c:'Produto',p:389.90},
+      {n:'Instalação de Bancada em Granito',c:'Serviço',p:1250.00},
+      {n:'Kit Ferragens Blum (par)',c:'Produto',p:274.50},
+      {n:'Projeto 3D de Ambiente',c:'Serviço',p:680.00},
+      {n:'Porta de Vidro Temperado 8mm',c:'Produto',p:920.00},
+      {n:'Visita Técnica e Medição',c:'Serviço',p:180.00}
+    ];
+    var no_itens=[{n:'Painel MDF Amadeirado 18mm',c:'Produto',p:389.90,q:4},{n:'Projeto 3D de Ambiente',c:'Serviço',p:680.00,q:1}];
+    var no_anexos=[{t:'📐',n:'planta-cozinha.pdf'},{t:'📷',n:'medicao-parede.jpg'}];
+    var no_pagTxt='À vista no Pix (3% off)', no_pagN=1, no_statusTxt='Rascunho', no_filtro='';
+
+    function no_m(v){return 'R$ '+v.toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});}
+
+    function novo_orcamento_render(){
+      var el=document.getElementById('no-itens'),h='';
+      no_itens.forEach(function(it,i){
+        h+='<div class="flex items-center gap-2 bg-[#FAFAFA] border border-[#f0ecdf] rounded-xl px-3 py-2">'+
+        '<div class="flex-1 min-w-0"><p class="text-sm font-semibold text-[#0A0A0A] truncate">'+it.n+'</p>'+
+        '<p class="text-[11px] text-[#8a8375]">'+it.c+' · '+no_m(it.p)+' un</p></div>'+
+        '<div class="flex items-center gap-1.5"><button onclick="novo_orcamento_qtd('+i+',-1)" class="w-6 h-6 rounded-full bg-white border border-[#e4dfd0] text-sm leading-none">−</button>'+
+        '<span class="text-sm font-bold w-5 text-center">'+it.q+'</span>'+
+        '<button onclick="novo_orcamento_qtd('+i+',1)" class="w-6 h-6 rounded-full bg-[#0A0A0A] text-[#D4AF37] text-sm leading-none">+</button></div>'+
+        '<span class="text-sm font-bold w-20 text-right">'+no_m(it.p*it.q)+'</span></div>';
+      });
+      el.innerHTML=h;
+      document.getElementById('no-vazio').classList.toggle('hidden',no_itens.length>0);
+      novo_orcamento_calc();
+      var a='';
+      no_anexos.forEach(function(x,i){a+='<button onclick="novo_orcamento_remAnexo('+i+')" class="bg-[#FAFAFA] border border-[#f0ecdf] rounded-xl h-20 flex flex-col items-center justify-center gap-1 px-1"><span class="text-xl">'+x.t+'</span><span class="text-[9px] text-[#8a8375] truncate w-full text-center">'+x.n+'</span></button>';});
+      a+='<button onclick="novo_orcamento_anexar()" class="border border-dashed border-[#D4AF37] rounded-xl h-20 flex items-center justify-center text-[#D4AF37] text-2xl">+</button>';
+      document.getElementById('no-anexos').innerHTML=a;
+    }
+
+    function novo_orcamento_calc(){
+      var s=0; no_itens.forEach(function(i){s+=i.p*i.q;});
+      var d=parseFloat(document.getElementById('no-desc').value)||0;
+      if(d>40){d=40;document.getElementById('no-desc').value=40;}
+      var t=s*(1-d/100);
+      document.getElementById('no-subtotal').textContent=no_m(s);
+      document.getElementById('no-total').textContent=no_m(t);
+      document.getElementById('no-parc').textContent = no_pagN>1 ? no_pagN+'x de '+no_m(t/no_pagN)+' · '+no_pagTxt : no_pagTxt;
+    }
+
+    function novo_orcamento_qtd(i,d){ no_itens[i].q+=d; if(no_itens[i].q<1) no_itens.splice(i,1); novo_orcamento_render(); }
+
+    function novo_orcamento_abrirCatalogo(){
+      var c=document.getElementById('no-catalogo'); c.classList.toggle('hidden');
+      if(!c.classList.contains('hidden')) novo_orcamento_filtrar(no_filtro);
+    }
+
+    function novo_orcamento_filtrar(v){
+      no_filtro=v||''; var h='';
+      no_catalogo.filter(function(p){return p.n.toLowerCase().indexOf(no_filtro.toLowerCase())>-1;}).forEach(function(p,i){
+        var idx=no_catalogo.indexOf(p);
+        h+='<button onclick="novo_orcamento_add('+idx+')" class="w-full flex items-center justify-between gap-2 px-3 py-2 rounded-xl border border-[#f0ecdf] hover:border-[#D4AF37] text-left">'+
+        '<span class="min-w-0"><span class="block text-sm font-semibold truncate">'+p.n+'</span><span class="block text-[11px] text-[#8a8375]">'+p.c+'</span></span>'+
+        '<span class="text-sm font-bold text-[#0A0A0A] shrink-0">'+no_m(p.p)+'</span></button>';
+      });
+      document.getElementById('no-cat-lista').innerHTML=h||'<p class="text-xs text-[#8a8375] text-center py-3">Nada encontrado no catálogo.</p>';
+    }
+
+    function novo_orcamento_add(i){
+      var p=no_catalogo[i], ex=no_itens.filter(function(x){return x.n===p.n;})[0];
+      if(ex) ex.q++; else no_itens.push({n:p.n,c:p.c,p:p.p,q:1});
+      novo_orcamento_render();
+    }
+
+    function novo_orcamento_trocarCliente(){ document.getElementById('no-lista-clientes').classList.toggle('hidden'); }
+    function novo_orcamento_setCliente(n,d,t){
+      document.getElementById('no-cli-nome').textContent=n;
+      document.getElementById('no-cli-doc').textContent=d;
+      document.getElementById('no-cli-tel').textContent=t;
+      document.getElementById('no-lista-clientes').classList.add('hidden');
+    }
+
+    function novo_orcamento_pag(b,txt,n){
+      document.querySelectorAll('#no-pag button').forEach(function(x){x.classList.remove('on');});
+      b.classList.add('on'); no_pagTxt=txt; no_pagN=n; novo_orcamento_calc();
+    }
+
+    function novo_orcamento_status(b,txt){
+      document.querySelectorAll('#no-status button').forEach(function(x){x.classList.remove('on');});
+      b.classList.add('on'); no_statusTxt=txt;
+    }
+
+    function novo_orcamento_anexar(){
+      var op=[{t:'📷',n:'ambiente-cliente.jpg'},{t:'📄',n:'contrato-assinado.pdf'},{t:'📐',n:'croqui-marcenaria.png'},{t:'🧾',n:'nota-material.pdf'}];
+      no_anexos.push(op[no_anexos.length % op.length]); novo_orcamento_render();
+    }
+    function novo_orcamento_remAnexo(i){ no_anexos.splice(i,1); novo_orcamento_render(); }
+
+    function novo_orcamento_obs(){
+      var v=document.getElementById('no-obs').value.trim(), e=document.getElementById('no-obs-eco');
+      e.textContent=v?'Anotado: '+v:''; e.classList.toggle('hidden',!v);
+    }
+
+    function novo_orcamento_salvar(){
+      novo_orcamento_status(document.querySelectorAll('#no-status button')[0],'Rascunho');
+      var r=document.getElementById('no-recibo');
+      document.getElementById('no-recibo-txt').textContent='Rascunho ORC-2024-0187 salvo para '+document.getElementById('no-cli-nome').textContent+' · Total '+document.getElementById('no-total').textContent+'.';
+      r.classList.remove('hidden'); r.scrollIntoView({behavior:'smooth',block:'center'});
+    }
+
+    function novo_orcamento_enviar(){
+      if(!no_itens.length){ novo_orcamento_abrirCatalogo(); return; }
+      novo_orcamento_status(document.querySelectorAll('#no-status button')[1],'Enviado');
+      var r=document.getElementById('no-recibo');
+      document.getElementById('no-recibo-txt').textContent='WhatsApp disparado para '+document.getElementById('no-cli-tel').textContent.replace('Contato: ','')+' com o PDF do orçamento ('+document.getElementById('no-total').textContent+'), condição "'+no_pagTxt+'" e link de pagamento online válido por 7 dias.';
+      r.classList.remove('hidden'); r.scrollIntoView({behavior:'smooth',block:'center'});
+    }
+
+    novo_orcamento_render();
+  </script>
+</section>
+
     <!-- TELAS -->
   </main>
 
