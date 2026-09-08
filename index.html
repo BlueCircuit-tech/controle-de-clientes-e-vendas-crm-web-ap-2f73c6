@@ -1210,6 +1210,210 @@ agenda_renderCal(); agenda_renderLista();
 </script>
 </section>
 
+    <section data-tela="relatorios" class="hidden">
+  <style>
+    .rel-card{background:#111;border:1px solid rgba(212,175,55,.18);border-radius:1rem}
+    .rel-chip{border:1px solid rgba(212,175,55,.35);color:#D4AF37;border-radius:999px;font-size:.7rem;padding:.3rem .7rem;white-space:nowrap}
+    .rel-chip-on{background:#D4AF37;color:#0A0A0A;border-color:#D4AF37;font-weight:700}
+    .rel-lbl{font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;color:#8a8a8a}
+    .rel-bar{background:linear-gradient(90deg,#D4AF37,#8a6f19);border-radius:.3rem;height:.6rem}
+  </style>
+
+  <div class="px-4 pt-4 pb-28 text-[#FAFAFA]">
+
+    <div class="flex items-end justify-between mb-3">
+      <div>
+        <p class="rel-lbl">Resultados</p>
+        <h2 class="text-xl font-semibold" style="font-family:Georgia,serif">Relatórios</h2>
+      </div>
+      <button onclick="relatorios_exportar()" class="text-xs px-3 py-2 rounded-lg font-semibold" style="background:#D4AF37;color:#0A0A0A">Exportar</button>
+    </div>
+
+    <div class="flex gap-2 overflow-x-auto pb-3 -mx-4 px-4">
+      <button class="rel-chip rel-chip-on" data-periodo="7" onclick="relatorios_periodo(this)">7 dias</button>
+      <button class="rel-chip" data-periodo="30" onclick="relatorios_periodo(this)">30 dias</button>
+      <button class="rel-chip" data-periodo="90" onclick="relatorios_periodo(this)">Trimestre</button>
+      <button class="rel-chip" data-periodo="ano" onclick="relatorios_periodo(this)">2024</button>
+    </div>
+
+    <p id="rel-periodo-txt" class="text-[.7rem] text-[#8a8a8a] mb-3">01/07/2024 a 07/07/2024 · atualizado hoje 09:12</p>
+
+    <div class="grid grid-cols-2 gap-3 mb-4">
+      <div class="rel-card p-3">
+        <p class="rel-lbl">Faturamento</p>
+        <p id="rel-fat" class="text-lg font-bold" style="color:#D4AF37">R$ 84.320</p>
+        <p id="rel-fat-var" class="text-[.65rem] text-emerald-400">▲ 12,4% vs anterior</p>
+      </div>
+      <div class="rel-card p-3">
+        <p class="rel-lbl">Ticket médio</p>
+        <p id="rel-ticket" class="text-lg font-bold">R$ 3.847</p>
+        <p id="rel-ticket-var" class="text-[.65rem] text-emerald-400">▲ 5,1%</p>
+      </div>
+      <div class="rel-card p-3">
+        <p class="rel-lbl">Conversão</p>
+        <p id="rel-conv" class="text-lg font-bold">38,6%</p>
+        <p id="rel-conv-var" class="text-[.65rem] text-red-400">▼ 2,3%</p>
+      </div>
+      <div class="rel-card p-3">
+        <p class="rel-lbl">Orçamentos</p>
+        <p id="rel-orc" class="text-lg font-bold">57</p>
+        <p class="text-[.65rem] text-[#8a8a8a]">22 aprovados</p>
+      </div>
+    </div>
+
+    <div class="rel-card p-4 mb-4">
+      <div class="flex items-center justify-between mb-3">
+        <p class="text-sm font-semibold">Vendas por vendedor</p>
+        <span class="rel-lbl">Toque na barra</span>
+      </div>
+      <div id="rel-vendedores" class="space-y-3"></div>
+      <div id="rel-vend-detalhe" class="hidden mt-4 pt-3 border-t border-[#D4AF37]/20">
+        <p id="rel-vd-nome" class="text-sm font-semibold" style="color:#D4AF37"></p>
+        <p id="rel-vd-info" class="text-xs text-[#bdbdbd] mt-1"></p>
+        <button onclick="mostrarTela('painel-de-vendas')" class="mt-3 w-full text-xs py-2 rounded-lg border border-[#D4AF37]/40" style="color:#D4AF37">Ver no painel de vendas</button>
+      </div>
+    </div>
+
+    <div class="rel-card p-4 mb-4">
+      <p class="text-sm font-semibold mb-3">Funil de orçamentos</p>
+      <div id="rel-funil" class="space-y-2"></div>
+    </div>
+
+    <div class="rel-card p-4 mb-4">
+      <div class="flex items-center justify-between mb-3">
+        <p class="text-sm font-semibold">Top produtos e serviços</p>
+        <span class="rel-lbl">Qtde · Receita</span>
+      </div>
+      <ol id="rel-produtos" class="space-y-2"></ol>
+    </div>
+
+    <div class="rel-card p-4 mb-4">
+      <p class="text-sm font-semibold mb-3">Melhores clientes do período</p>
+      <div class="space-y-2">
+        <button onclick="mostrarTela('ficha-do-cliente')" class="w-full flex items-center justify-between text-left px-3 py-2 rounded-lg bg-[#0A0A0A] border border-[#D4AF37]/12">
+          <span><span class="block text-sm">Construtora Vale Norte</span><span class="block text-[.65rem] text-[#8a8a8a]">4 pedidos · Campinas/SP</span></span>
+          <span class="text-sm font-semibold" style="color:#D4AF37">R$ 21.480</span>
+        </button>
+        <button onclick="mostrarTela('ficha-do-cliente')" class="w-full flex items-center justify-between text-left px-3 py-2 rounded-lg bg-[#0A0A0A] border border-[#D4AF37]/12">
+          <span><span class="block text-sm">Padaria Estrela do Sul</span><span class="block text-[.65rem] text-[#8a8a8a]">3 pedidos · São Paulo/SP</span></span>
+          <span class="text-sm font-semibold" style="color:#D4AF37">R$ 12.960</span>
+        </button>
+        <button onclick="mostrarTela('clientes')" class="w-full text-xs py-2 rounded-lg border border-[#D4AF37]/30 text-[#D4AF37]">Ver todos os clientes</button>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-2 gap-3">
+      <button onclick="mostrarTela('novo-orcamento')" class="py-3 rounded-xl text-sm font-semibold" style="background:#D4AF37;color:#0A0A0A">Novo orçamento</button>
+      <button onclick="mostrarTela('agenda')" class="py-3 rounded-xl text-sm font-semibold border border-[#D4AF37]/40 text-[#D4AF37]">Abrir agenda</button>
+    </div>
+  </div>
+
+  <div id="rel-modal" class="hidden fixed inset-0 z-40 items-end justify-center" style="background:rgba(0,0,0,.7)">
+    <div class="w-full max-w-[430px] rounded-t-2xl p-5" style="background:#111;border-top:1px solid rgba(212,175,55,.3)">
+      <div class="w-10 h-1 rounded-full mx-auto mb-4" style="background:#D4AF37"></div>
+      <p class="text-sm font-semibold text-[#FAFAFA] mb-3">Exportar relatório</p>
+      <div class="space-y-2">
+        <button onclick="relatorios_gerar('PDF')" class="w-full text-left px-4 py-3 rounded-lg bg-[#0A0A0A] border border-[#D4AF37]/20 text-[#FAFAFA] text-sm">📄 PDF completo com gráficos</button>
+        <button onclick="relatorios_gerar('Excel')" class="w-full text-left px-4 py-3 rounded-lg bg-[#0A0A0A] border border-[#D4AF37]/20 text-[#FAFAFA] text-sm">📊 Planilha Excel (.xlsx)</button>
+        <button onclick="relatorios_gerar('WhatsApp')" class="w-full text-left px-4 py-3 rounded-lg bg-[#0A0A0A] border border-[#D4AF37]/20 text-[#FAFAFA] text-sm">💬 Enviar resumo no WhatsApp</button>
+      </div>
+      <p id="rel-modal-ok" class="hidden text-xs mt-3 text-emerald-400"></p>
+      <button onclick="relatorios_fecharModal()" class="w-full mt-4 py-2 text-xs text-[#8a8a8a]">Fechar</button>
+    </div>
+  </div>
+
+  <script>
+    var relatorios_dados = {
+      "7": {periodo:"01/07/2024 a 07/07/2024 · atualizado hoje 09:12", fat:"R$ 84.320", fatVar:"▲ 12,4% vs anterior", ticket:"R$ 3.847", tvar:"▲ 5,1%", conv:"38,6%", cvar:"▼ 2,3%", orc:"57",
+        vend:[{n:"Ricardo Almeida",v:31200,q:9},{n:"Juliana Prado",v:24800,q:7},{n:"Marcos Tavares",v:17640,q:5},{n:"Camila Rezende",v:10680,q:4}],
+        funil:[{n:"Em elaboração",q:14,c:"#4a4a4a"},{n:"Enviado ao cliente",q:12,c:"#6b5a1f"},{n:"Em negociação",q:9,c:"#a8892b"},{n:"Aprovado",q:22,c:"#D4AF37"}],
+        prod:[{n:"Consultoria de implantação",q:"12 un",v:"R$ 28.800"},{n:"Licença CRM Premium anual",q:"9 un",v:"R$ 21.150"},{n:"Treinamento equipe comercial",q:"7 un",v:"R$ 14.700"},{n:"Integração WhatsApp Business",q:"11 un",v:"R$ 10.890"},{n:"Suporte dedicado mensal",q:"6 un",v:"R$ 8.780"}]},
+      "30": {periodo:"08/06/2024 a 07/07/2024 · atualizado hoje 09:12", fat:"R$ 312.470", fatVar:"▲ 8,9% vs anterior", ticket:"R$ 4.120", tvar:"▲ 3,4%", conv:"41,2%", cvar:"▲ 1,8%", orc:"186",
+        vend:[{n:"Ricardo Almeida",v:104300,q:28},{n:"Juliana Prado",v:92150,q:25},{n:"Marcos Tavares",v:68420,q:19},{n:"Camila Rezende",v:47600,q:14}],
+        funil:[{n:"Em elaboração",q:38,c:"#4a4a4a"},{n:"Enviado ao cliente",q:44,c:"#6b5a1f"},{n:"Em negociação",q:27,c:"#a8892b"},{n:"Aprovado",q:77,c:"#D4AF37"}],
+        prod:[{n:"Licença CRM Premium anual",q:"34 un",v:"R$ 79.900"},{n:"Consultoria de implantação",q:"41 un",v:"R$ 98.400"},{n:"Treinamento equipe comercial",q:"22 un",v:"R$ 46.200"},{n:"Integração WhatsApp Business",q:"36 un",v:"R$ 35.640"},{n:"Suporte dedicado mensal",q:"28 un",v:"R$ 40.960"}]},
+      "90": {periodo:"08/04/2024 a 07/07/2024 · atualizado hoje 09:12", fat:"R$ 918.640", fatVar:"▲ 15,2% vs anterior", ticket:"R$ 4.380", tvar:"▲ 6,7%", conv:"39,9%", cvar:"▼ 0,6%", orc:"524",
+        vend:[{n:"Ricardo Almeida",v:298400,q:81},{n:"Juliana Prado",v:271900,q:74},{n:"Marcos Tavares",v:202300,q:58},{n:"Camila Rezende",v:146040,q:41}],
+        funil:[{n:"Em elaboração",q:96,c:"#4a4a4a"},{n:"Enviado ao cliente",q:131,c:"#6b5a1f"},{n:"Em negociação",q:88,c:"#a8892b"},{n:"Aprovado",q:209,c:"#D4AF37"}],
+        prod:[{n:"Licença CRM Premium anual",q:"98 un",v:"R$ 230.300"},{n:"Consultoria de implantação",q:"112 un",v:"R$ 268.800"},{n:"Treinamento equipe comercial",q:"64 un",v:"R$ 134.400"},{n:"Suporte dedicado mensal",q:"81 un",v:"R$ 118.500"},{n:"Integração WhatsApp Business",q:"93 un",v:"R$ 92.070"}]},
+      "ano": {periodo:"01/01/2024 a 07/07/2024 · atualizado hoje 09:12", fat:"R$ 2.146.900", fatVar:"▲ 21,7% vs 2023", ticket:"R$ 4.510", tvar:"▲ 9,2%", conv:"40,4%", cvar:"▲ 2,9%", orc:"1.178",
+        vend:[{n:"Ricardo Almeida",v:702400,q:186},{n:"Juliana Prado",v:640300,q:171},{n:"Marcos Tavares",v:461800,q:129},{n:"Camila Rezende",v:342400,q:96}],
+        funil:[{n:"Em elaboração",q:184,c:"#4a4a4a"},{n:"Enviado ao cliente",q:296,c:"#6b5a1f"},{n:"Em negociação",q:222,c:"#a8892b"},{n:"Aprovado",q:476,c:"#D4AF37"}],
+        prod:[{n:"Consultoria de implantação",q:"248 un",v:"R$ 595.200"},{n:"Licença CRM Premium anual",q:"214 un",v:"R$ 502.900"},{n:"Suporte dedicado mensal",q:"186 un",v:"R$ 272.100"},{n:"Treinamento equipe comercial",q:"141 un",v:"R$ 296.100"},{n:"Integração WhatsApp Business",q:"203 un",v:"R$ 200.970"}]}
+    };
+    var relatorios_atual = "7";
+
+    function relatorios_moeda(v){ return "R$ " + v.toLocaleString("pt-BR"); }
+
+    function relatorios_render(){
+      var d = relatorios_dados[relatorios_atual];
+      document.getElementById("rel-periodo-txt").textContent = d.periodo;
+      document.getElementById("rel-fat").textContent = d.fat;
+      document.getElementById("rel-fat-var").textContent = d.fatVar;
+      document.getElementById("rel-ticket").textContent = d.ticket;
+      document.getElementById("rel-ticket-var").textContent = d.tvar;
+      document.getElementById("rel-conv").textContent = d.conv;
+      var cv = document.getElementById("rel-conv-var");
+      cv.textContent = d.cvar;
+      cv.className = "text-[.65rem] " + (d.cvar.indexOf("▲")===0 ? "text-emerald-400" : "text-red-400");
+      document.getElementById("rel-orc").textContent = d.orc;
+
+      var max = Math.max.apply(null, d.vend.map(function(x){return x.v;}));
+      document.getElementById("rel-vendedores").innerHTML = d.vend.map(function(x,i){
+        return '<button onclick="relatorios_vendedor('+i+')" class="w-full text-left">'+
+          '<div class="flex justify-between text-xs mb-1"><span>'+x.n+'</span><span style="color:#D4AF37">'+relatorios_moeda(x.v)+'</span></div>'+
+          '<div class="w-full rounded" style="background:#1e1e1e"><div class="rel-bar" style="width:'+Math.round(x.v/max*100)+'%"></div></div></button>';
+      }).join("");
+      document.getElementById("rel-vend-detalhe").classList.add("hidden");
+
+      var tot = d.funil.reduce(function(a,b){return a+b.q;},0);
+      document.getElementById("rel-funil").innerHTML = d.funil.map(function(f){
+        var p = Math.round(f.q/tot*100);
+        return '<div><div class="flex justify-between text-xs mb-1"><span class="text-[#bdbdbd]">'+f.n+'</span><span>'+f.q+' · '+p+'%</span></div>'+
+        '<div class="w-full rounded" style="background:#1e1e1e"><div style="width:'+p+'%;height:.55rem;border-radius:.3rem;background:'+f.c+'"></div></div></div>';
+      }).join("");
+
+      document.getElementById("rel-produtos").innerHTML = d.prod.map(function(p,i){
+        return '<li class="flex items-center gap-3 px-3 py-2 rounded-lg" style="background:#0A0A0A;border:1px solid rgba(212,175,55,.12)">'+
+          '<span class="w-6 h-6 flex items-center justify-center rounded-full text-[.65rem] font-bold" style="background:#D4AF37;color:#0A0A0A">'+(i+1)+'</span>'+
+          '<span class="flex-1 text-xs">'+p.n+'<span class="block text-[.6rem] text-[#8a8a8a]">'+p.q+'</span></span>'+
+          '<span class="text-xs font-semibold" style="color:#D4AF37">'+p.v+'</span></li>';
+      }).join("");
+    }
+
+    function relatorios_periodo(btn){
+      document.querySelectorAll('[data-periodo]').forEach(function(b){ b.classList.remove("rel-chip-on"); });
+      btn.classList.add("rel-chip-on");
+      relatorios_atual = btn.getAttribute("data-periodo");
+      relatorios_render();
+    }
+
+    function relatorios_vendedor(i){
+      var x = relatorios_dados[relatorios_atual].vend[i];
+      document.getElementById("rel-vd-nome").textContent = x.n;
+      document.getElementById("rel-vd-info").textContent = x.q + " pedidos fechados · " + relatorios_moeda(x.v) + " · ticket médio " + relatorios_moeda(Math.round(x.v/x.q));
+      document.getElementById("rel-vend-detalhe").classList.remove("hidden");
+    }
+
+    function relatorios_exportar(){
+      var m = document.getElementById("rel-modal");
+      m.classList.remove("hidden"); m.classList.add("flex");
+      document.getElementById("rel-modal-ok").classList.add("hidden");
+    }
+    function relatorios_fecharModal(){
+      var m = document.getElementById("rel-modal");
+      m.classList.add("hidden"); m.classList.remove("flex");
+    }
+    function relatorios_gerar(tipo){
+      var ok = document.getElementById("rel-modal-ok");
+      ok.textContent = tipo === "WhatsApp" ? "Resumo enviado para o grupo Comercial BlueCircuit." : "Relatório em " + tipo + " gerado e enviado para ricardo@empresa.com.br";
+      ok.classList.remove("hidden");
+    }
+
+    relatorios_render();
+  </script>
+</section>
+
     <!-- TELAS -->
   </main>
 
