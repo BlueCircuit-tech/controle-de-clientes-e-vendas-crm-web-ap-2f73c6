@@ -313,6 +313,179 @@ tailwind.config = {
   </script>
 </section>
 
+    <section data-tela="clientes" class="hidden">
+  <style>
+    .cli-chip{padding:.35rem .8rem;border-radius:9999px;font-size:.72rem;font-weight:600;white-space:nowrap;border:1px solid #d9e2ec;color:#4a5b6b;background:#fff}
+    .cli-chip.on{background:#0f3d56;border-color:#0f3d56;color:#fff}
+    .cli-card{display:flex;gap:.75rem;align-items:center;padding:.85rem;background:#fff;border:1px solid #e6ecf1;border-radius:14px;width:100%;text-align:left}
+    .cli-card:active{background:#f2f7fa}
+    .cli-ini{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.85rem;flex:0 0 auto}
+    .cli-tag{font-size:.63rem;font-weight:700;padding:.15rem .45rem;border-radius:6px;letter-spacing:.02em}
+  </style>
+
+  <div class="bg-[#0f3d56] px-4 pt-4 pb-5 rounded-b-3xl">
+    <div class="flex items-end justify-between">
+      <div>
+        <p class="text-[#7fc6c2] text-[.7rem] font-semibold tracking-wider uppercase">Carteira</p>
+        <h2 class="text-white text-xl font-bold leading-tight">Clientes</h2>
+      </div>
+      <div class="flex gap-2">
+        <button onclick="clientes_verMapa()" id="cli-btn-mapa" class="bg-white/10 text-white text-[.72rem] font-semibold px-3 py-2 rounded-xl border border-white/20">🗺️ Mapa</button>
+        <button onclick="mostrarTela('relatorios')" class="bg-white/10 text-white text-[.72rem] font-semibold px-3 py-2 rounded-xl border border-white/20">📊</button>
+      </div>
+    </div>
+    <div class="mt-3 flex items-center gap-2 bg-white rounded-xl px-3 py-2">
+      <span class="text-[#0f3d56]">🔎</span>
+      <input id="cli-busca" oninput="clientes_render()" placeholder="Buscar nome, cidade ou CNPJ" class="flex-1 text-[.82rem] outline-none placeholder:text-slate-400">
+      <button onclick="clientes_limpar()" class="text-slate-400 text-sm">✕</button>
+    </div>
+  </div>
+
+  <div class="px-4 mt-3 flex gap-2 overflow-x-auto pb-1" id="cli-filtros">
+    <button class="cli-chip on" data-f="todos" onclick="clientes_filtrar(this)">Todos <span id="cli-c-todos"></span></button>
+    <button class="cli-chip" data-f="ativo" onclick="clientes_filtrar(this)">Ativos</button>
+    <button class="cli-chip" data-f="prospect" onclick="clientes_filtrar(this)">Prospects</button>
+    <button class="cli-chip" data-f="inadimplente" onclick="clientes_filtrar(this)">Inadimplentes</button>
+  </div>
+
+  <div class="px-4 mt-2 flex items-center justify-between">
+    <p id="cli-resumo" class="text-[.72rem] text-slate-500"></p>
+    <button onclick="clientes_ordenar()" id="cli-ord" class="text-[.72rem] font-semibold text-[#0f3d56]">Maior valor ↓</button>
+  </div>
+
+  <div id="cli-lista" class="px-4 mt-2 space-y-2 pb-4"></div>
+
+  <div id="cli-mapa" class="hidden px-4 mt-2 pb-4">
+    <div class="relative rounded-2xl overflow-hidden border border-[#e6ecf1] bg-[#e8eee9] h-64">
+      <div class="absolute inset-0 opacity-60"
+        style="background-image:linear-gradient(#cdd8cf 1px,transparent 1px),linear-gradient(90deg,#cdd8cf 1px,transparent 1px);background-size:34px 34px"></div>
+      <div class="absolute top-6 left-10 h-1.5 w-44 bg-[#c2cfc4] rotate-12 rounded"></div>
+      <div class="absolute bottom-10 left-4 h-1.5 w-56 bg-[#c2cfc4] -rotate-6 rounded"></div>
+      <button onclick="clientes_pin('Metalúrgica Andrade')" class="absolute top-12 left-16 -translate-x-1/2 text-2xl">📍</button>
+      <button onclick="clientes_pin('Padaria Vila Rica')" class="absolute top-28 left-40 -translate-x-1/2 text-2xl">📍</button>
+      <button onclick="clientes_pin('Auto Peças Bandeirantes')" class="absolute bottom-14 left-24 -translate-x-1/2 text-2xl">📍</button>
+      <button onclick="clientes_pin('Clínica Vida Plena')" class="absolute bottom-20 right-12 text-2xl">📍</button>
+      <div class="absolute bottom-2 right-2 bg-white/90 text-[.6rem] px-2 py-1 rounded text-slate-500">Região Metropolitana de Campinas</div>
+    </div>
+    <div id="cli-pin" class="mt-3 bg-white border border-[#e6ecf1] rounded-2xl p-3 text-[.8rem] text-slate-500">
+      Toque em um marcador para ver o cliente da região.
+    </div>
+    <button onclick="clientes_verLista()" class="mt-3 w-full bg-[#0f3d56] text-white font-semibold py-3 rounded-xl text-[.85rem]">Voltar para a lista</button>
+  </div>
+
+  <div id="cli-novo" class="hidden fixed inset-0 z-40 bg-black/40 flex items-end justify-center">
+    <div class="w-full max-w-[430px] bg-white rounded-t-3xl p-4">
+      <div class="w-10 h-1 bg-slate-300 rounded mx-auto mb-3"></div>
+      <h3 class="font-bold text-[#0f3d56] text-base">Novo cliente</h3>
+      <div class="mt-3 space-y-2">
+        <input id="cli-n-nome" placeholder="Razão social / Nome" class="w-full border border-[#e6ecf1] rounded-xl px-3 py-2.5 text-[.82rem] outline-none focus:border-[#0f3d56]">
+        <div class="flex gap-2">
+          <input id="cli-n-cidade" placeholder="Cidade" class="flex-1 border border-[#e6ecf1] rounded-xl px-3 py-2.5 text-[.82rem] outline-none focus:border-[#0f3d56]">
+          <select id="cli-n-status" class="w-36 border border-[#e6ecf1] rounded-xl px-2 py-2.5 text-[.82rem] outline-none">
+            <option value="prospect">Prospect</option>
+            <option value="ativo">Ativo</option>
+          </select>
+        </div>
+        <input id="cli-n-contato" placeholder="Contato responsável" class="w-full border border-[#e6ecf1] rounded-xl px-3 py-2.5 text-[.82rem] outline-none focus:border-[#0f3d56]">
+      </div>
+      <p id="cli-n-erro" class="hidden text-[.72rem] text-red-600 mt-2">Informe ao menos nome e cidade.</p>
+      <div class="flex gap-2 mt-4">
+        <button onclick="clientes_fecharNovo()" class="flex-1 border border-[#e6ecf1] text-slate-600 font-semibold py-3 rounded-xl text-[.85rem]">Cancelar</button>
+        <button onclick="clientes_salvar()" class="flex-1 bg-[#e2703a] text-white font-semibold py-3 rounded-xl text-[.85rem]">Salvar cliente</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="cli-toast" class="hidden fixed left-1/2 -translate-x-1/2 bottom-24 z-50 bg-[#0f3d56] text-white text-[.78rem] px-4 py-2.5 rounded-xl shadow-lg"></div>
+
+  <button onclick="clientes_abrirNovo()" class="fixed z-30 bottom-24 right-4 md:right-[calc(50%-215px+1rem)] w-14 h-14 rounded-2xl bg-[#e2703a] text-white text-2xl font-light shadow-lg shadow-orange-900/30">+</button>
+
+  <script>
+    var clientes_dados = [
+      {n:'Metalúrgica Andrade Ltda', c:'Sumaré • SP', d:'12.884.220/0001-45', s:'ativo', u:'18/05/2024', v:184250, t:'Roberto Andrade', cor:'#0f3d56'},
+      {n:'Padaria Vila Rica', c:'Campinas • SP', d:'21.774.019/0001-08', s:'inadimplente', u:'02/03/2024', v:26980, t:'Solange Ferraz', cor:'#b03a2e'},
+      {n:'Auto Peças Bandeirantes', c:'Hortolândia • SP', d:'09.551.402/0001-77', s:'ativo', u:'21/05/2024', v:97430, t:'Marcelo Tavares', cor:'#1f7a6b'},
+      {n:'Clínica Vida Plena', c:'Valinhos • SP', d:'33.610.884/0001-19', s:'prospect', u:'—', v:0, t:'Dra. Helena Prado', cor:'#5b4b8a'},
+      {n:'Distribuidora Nova Aliança', c:'Indaiatuba • SP', d:'17.209.335/0001-62', s:'ativo', u:'14/05/2024', v:312700, t:'Fábio Nunes', cor:'#8a6a1f'},
+      {n:'Marmoraria São Bento', c:'Monte Mor • SP', d:'28.443.170/0001-90', s:'prospect', u:'—', v:0, t:'Ivo Bertoldi', cor:'#3f5d75'}
+    ];
+    var clientes_filtro = 'todos', clientes_desc = true;
+
+    function clientes_moeda(v){ return v.toLocaleString('pt-BR',{style:'currency',currency:'BRL',maximumFractionDigits:0}); }
+    function clientes_ini(n){ var p=n.replace(/[^A-Za-zÀ-ú ]/g,'').trim().split(/\s+/); return ((p[0]||'C')[0]+(p[1]?p[1][0]:'')).toUpperCase(); }
+    function clientes_tag(s){
+      if(s==='ativo') return '<span class="cli-tag" style="background:#e0f2ec;color:#1f7a6b">ATIVO</span>';
+      if(s==='prospect') return '<span class="cli-tag" style="background:#eceafa;color:#5b4b8a">PROSPECT</span>';
+      return '<span class="cli-tag" style="background:#fde8e4;color:#b03a2e">INADIMPLENTE</span>';
+    }
+    function clientes_render(){
+      var q=(document.getElementById('cli-busca').value||'').toLowerCase();
+      var l=clientes_dados.filter(function(x){
+        var okF = clientes_filtro==='todos' || x.s===clientes_filtro;
+        var okQ = (x.n+' '+x.c+' '+x.d).toLowerCase().indexOf(q)>-1;
+        return okF && okQ;
+      });
+      l.sort(function(a,b){ return clientes_desc ? b.v-a.v : a.v-b.v; });
+      var total=l.reduce(function(s,x){return s+x.v;},0);
+      document.getElementById('cli-resumo').textContent = l.length+' cliente(s) • carteira '+clientes_moeda(total);
+      document.getElementById('cli-c-todos').textContent='('+clientes_dados.length+')';
+      document.getElementById('cli-lista').innerHTML = l.length ? l.map(function(x){
+        return '<button class="cli-card" onclick="clientes_abrir(\''+x.n.replace(/'/g,"")+'\')">'+
+          '<span class="cli-ini" style="background:'+x.cor+'1a;color:'+x.cor+'">'+clientes_ini(x.n)+'</span>'+
+          '<span class="flex-1 min-w-0">'+
+            '<span class="flex items-center gap-2"><span class="font-semibold text-[.86rem] text-[#123] truncate">'+x.n+'</span></span>'+
+            '<span class="block text-[.72rem] text-slate-500 mt-.5">'+x.c+' • '+x.t+'</span>'+
+            '<span class="flex items-center gap-2 mt-1">'+clientes_tag(x.s)+
+              '<span class="text-[.68rem] text-slate-400">Últ. compra '+x.u+'</span></span>'+
+          '</span>'+
+          '<span class="text-right flex-none"><span class="block font-bold text-[.82rem] text-[#0f3d56]">'+clientes_moeda(x.v)+'</span>'+
+          '<span class="block text-[.65rem] text-slate-400">total</span></span>'+
+        '</button>';
+      }).join('') : '<div class="bg-white border border-dashed border-[#d9e2ec] rounded-2xl p-6 text-center text-[.8rem] text-slate-500">Nenhum cliente encontrado.<br><button onclick="clientes_abrirNovo()" class="mt-2 text-[#e2703a] font-semibold">Cadastrar agora</button></div>';
+    }
+    function clientes_filtrar(b){
+      clientes_filtro=b.dataset.f;
+      document.querySelectorAll('#cli-filtros .cli-chip').forEach(function(e){e.classList.remove('on');});
+      b.classList.add('on'); clientes_verLista(); clientes_render();
+    }
+    function clientes_ordenar(){
+      clientes_desc=!clientes_desc;
+      document.getElementById('cli-ord').textContent = clientes_desc?'Maior valor ↓':'Menor valor ↑';
+      clientes_render();
+    }
+    function clientes_limpar(){ document.getElementById('cli-busca').value=''; clientes_render(); }
+    function clientes_verMapa(){ document.getElementById('cli-lista').classList.add('hidden'); document.getElementById('cli-mapa').classList.remove('hidden'); }
+    function clientes_verLista(){ document.getElementById('cli-mapa').classList.add('hidden'); document.getElementById('cli-lista').classList.remove('hidden'); }
+    function clientes_pin(nome){
+      var x=clientes_dados.filter(function(d){return d.n.indexOf(nome)>-1;})[0]; if(!x) return;
+      document.getElementById('cli-pin').innerHTML='<div class="flex items-center gap-3">'+
+        '<span class="cli-ini" style="background:'+x.cor+'1a;color:'+x.cor+'">'+clientes_ini(x.n)+'</span>'+
+        '<div class="flex-1"><p class="font-semibold text-[.84rem] text-[#123]">'+x.n+'</p>'+
+        '<p class="text-[.72rem] text-slate-500">'+x.c+' • '+clientes_moeda(x.v)+'</p></div></div>'+
+        '<div class="flex gap-2 mt-3"><button onclick="clientes_abrir(\''+x.n+'\')" class="flex-1 bg-[#0f3d56] text-white font-semibold py-2.5 rounded-xl text-[.8rem]">Abrir ficha</button>'+
+        '<button onclick="mostrarTela(\'novo-orcamento\')" class="flex-1 border border-[#e6ecf1] text-[#0f3d56] font-semibold py-2.5 rounded-xl text-[.8rem]">Orçamento</button></div>';
+    }
+    function clientes_abrir(nome){ clientes_toast('Abrindo ficha de '+nome); setTimeout(function(){mostrarTela('ficha-do-cliente');},350); }
+    function clientes_abrirNovo(){ document.getElementById('cli-novo').classList.remove('hidden'); }
+    function clientes_fecharNovo(){ document.getElementById('cli-novo').classList.add('hidden'); document.getElementById('cli-n-erro').classList.add('hidden'); }
+    function clientes_salvar(){
+      var n=document.getElementById('cli-n-nome').value.trim(),
+          c=document.getElementById('cli-n-cidade').value.trim(),
+          s=document.getElementById('cli-n-status').value,
+          t=document.getElementById('cli-n-contato').value.trim()||'Contato a definir';
+      if(!n||!c){ document.getElementById('cli-n-erro').classList.remove('hidden'); return; }
+      clientes_dados.unshift({n:n,c:c+' • SP',d:'a preencher',s:s,u:'—',v:0,t:t,cor:'#e2703a'});
+      document.getElementById('cli-n-nome').value=''; document.getElementById('cli-n-cidade').value=''; document.getElementById('cli-n-contato').value='';
+      clientes_fecharNovo(); clientes_verLista(); clientes_render(); clientes_toast(n+' cadastrado com sucesso');
+    }
+    function clientes_toast(msg){
+      var t=document.getElementById('cli-toast'); t.textContent=msg; t.classList.remove('hidden');
+      clearTimeout(window.clientes_tt); window.clientes_tt=setTimeout(function(){t.classList.add('hidden');},1800);
+    }
+    clientes_render();
+  </script>
+</section>
+
     <!-- TELAS -->
   </main>
 
