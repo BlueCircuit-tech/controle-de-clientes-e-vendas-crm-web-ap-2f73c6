@@ -486,6 +486,282 @@ tailwind.config = {
   </script>
 </section>
 
+    <section data-tela="ficha-do-cliente" class="hidden">
+  <style>
+    .fc-card{background:#fff;border:1px solid #ECE6D5;border-radius:16px}
+    .fc-tab{padding:.55rem .9rem;border-radius:999px;font-size:.78rem;font-weight:600;white-space:nowrap;color:#6B6558;background:#F3EFE4}
+    .fc-tab-on{background:#0A0A0A;color:#D4AF37}
+    .fc-act{display:flex;flex-direction:column;align-items:center;gap:.3rem;flex:1;padding:.6rem .2rem;border-radius:14px;background:#0A0A0A;color:#FAFAFA;font-size:.66rem;font-weight:600}
+    .fc-dot{position:absolute;left:-1.35rem;top:.25rem;width:.6rem;height:.6rem;border-radius:999px;background:#D4AF37;box-shadow:0 0 0 3px #FAF7EE}
+  </style>
+
+  <div class="bg-[#FAFAFA] pb-6">
+
+    <div class="relative bg-[#0A0A0A] px-4 pt-4 pb-16">
+      <button onclick="mostrarTela('clientes')" class="flex items-center gap-1 text-[#D4AF37] text-[.78rem] font-semibold">
+        <span>&#8249;</span> Voltar para clientes
+      </button>
+      <div class="mt-4 flex items-start gap-3">
+        <div class="w-14 h-14 rounded-2xl bg-[#D4AF37] text-[#0A0A0A] flex items-center justify-center text-lg font-bold shrink-0">MV</div>
+        <div class="min-w-0">
+          <h2 class="text-[#FAFAFA] text-[1.05rem] font-bold leading-tight">Marmoraria Vitória Ltda.</h2>
+          <p class="text-[#9C9689] text-[.74rem] mt-0.5">CNPJ 12.845.339/0001-07</p>
+          <div class="flex flex-wrap gap-1.5 mt-2">
+            <span class="text-[.62rem] font-bold px-2 py-0.5 rounded-full bg-[#D4AF37] text-[#0A0A0A]">CLIENTE OURO</span>
+            <span class="text-[.62rem] font-bold px-2 py-0.5 rounded-full border border-[#3A3730] text-[#D4AF37]">Ativo</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="px-4 -mt-11">
+      <div class="fc-card p-3 grid grid-cols-3 gap-2 text-center">
+        <div>
+          <p class="text-[.95rem] font-bold text-[#0A0A0A]">R$ 84.320</p>
+          <p class="text-[.6rem] text-[#8A8478] mt-0.5">FATURADO 2024</p>
+        </div>
+        <div class="border-x border-[#ECE6D5]">
+          <p class="text-[.95rem] font-bold text-[#0A0A0A]">17</p>
+          <p class="text-[.6rem] text-[#8A8478] mt-0.5">PEDIDOS</p>
+        </div>
+        <div>
+          <p class="text-[.95rem] font-bold text-[#0A0A0A]">18/06</p>
+          <p class="text-[.6rem] text-[#8A8478] mt-0.5">ÚLTIMO CONTATO</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="px-4 mt-3 flex gap-2">
+      <a href="tel:+551139874521" class="fc-act">
+        <span class="text-[1.05rem]">&#128222;</span> Ligar
+      </a>
+      <a href="https://wa.me/5511998450231" target="_blank" class="fc-act" style="background:#D4AF37;color:#0A0A0A">
+        <span class="text-[1.05rem]">&#128172;</span> WhatsApp
+      </a>
+      <button onclick="mostrarTela('agenda')" class="fc-act">
+        <span class="text-[1.05rem]">&#128197;</span> Agendar
+      </button>
+      <button onclick="mostrarTela('novo-orcamento')" class="fc-act" style="background:#1E1B14;color:#D4AF37">
+        <span class="text-[1.05rem]">&#128221;</span> Orçar
+      </button>
+    </div>
+
+    <div class="px-4 mt-4">
+      <div class="fc-card p-3.5">
+        <p class="text-[.62rem] font-bold text-[#8A8478] tracking-wider">CONTATO</p>
+        <div class="mt-2 space-y-2 text-[.8rem] text-[#0A0A0A]">
+          <p><span class="text-[#8A8478]">Responsável:</span> Cláudia Ferrari Nogueira</p>
+          <p><span class="text-[#8A8478]">E-mail:</span> claudia@marmorariavitoria.com.br</p>
+          <p><span class="text-[#8A8478]">Telefones:</span> (11) 3987-4521 · (11) 99845-0231</p>
+          <p><span class="text-[#8A8478]">Vendedor:</span> Rafael Toledo</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="px-4 mt-3">
+      <div class="fc-card overflow-hidden">
+        <div class="p-3.5 pb-2">
+          <p class="text-[.62rem] font-bold text-[#8A8478] tracking-wider">ENDEREÇO</p>
+          <p class="text-[.8rem] text-[#0A0A0A] mt-1.5 leading-snug">Av. dos Bandeirantes, 2.480 — Galpão 4<br>Vila Olímpia · São Paulo/SP · 04553-002</p>
+        </div>
+        <div class="relative h-32 bg-[#EDE8DA]">
+          <svg viewBox="0 0 340 130" class="absolute inset-0 w-full h-full">
+            <rect width="340" height="130" fill="#E8E2D2"/>
+            <path d="M0 88 H340" stroke="#FAFAFA" stroke-width="11"/>
+            <path d="M0 34 H340" stroke="#FAFAFA" stroke-width="6"/>
+            <path d="M96 0 V130" stroke="#FAFAFA" stroke-width="8"/>
+            <path d="M232 0 V130" stroke="#FAFAFA" stroke-width="5"/>
+            <rect x="112" y="44" width="46" height="30" fill="#D8D1BE"/>
+            <rect x="248" y="98" width="54" height="24" fill="#D8D1BE"/>
+            <rect x="26" y="46" width="52" height="30" fill="#D8D1BE"/>
+            <circle cx="176" cy="86" r="13" fill="#D4AF37" opacity=".3"/>
+            <circle cx="176" cy="86" r="6" fill="#0A0A0A"/>
+          </svg>
+          <a href="https://www.google.com/maps/search/?api=1&query=Av.+dos+Bandeirantes+2480+Vila+Ol%C3%ADmpia+S%C3%A3o+Paulo" target="_blank"
+             class="absolute bottom-2.5 right-2.5 bg-[#0A0A0A] text-[#D4AF37] text-[.66rem] font-bold px-3 py-1.5 rounded-full">Abrir rota &#8599;</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-4 px-4 flex gap-2 overflow-x-auto pb-1" id="fcTabs">
+      <button class="fc-tab fc-tab-on" data-aba="historico" onclick="ficha_do_cliente_aba('historico',this)">Histórico</button>
+      <button class="fc-tab" data-aba="pedidos" onclick="ficha_do_cliente_aba('pedidos',this)">Pedidos (4)</button>
+      <button class="fc-tab" data-aba="fotos" onclick="ficha_do_cliente_aba('fotos',this)">Fotos (5)</button>
+      <button class="fc-tab" data-aba="docs" onclick="ficha_do_cliente_aba('docs',this)">Documentos (3)</button>
+    </div>
+
+    <div class="px-4 mt-3">
+
+      <div data-painel="historico">
+        <div class="fc-card p-4">
+          <div class="border-l border-[#ECE6D5] pl-5 space-y-4">
+            <div class="relative">
+              <span class="fc-dot"></span>
+              <p class="text-[.62rem] text-[#8A8478] font-semibold">18/06/2024 · 14h20 · Rafael Toledo</p>
+              <p class="text-[.82rem] font-semibold text-[#0A0A0A] mt-0.5">Visita técnica na obra</p>
+              <p class="text-[.75rem] text-[#6B6558] leading-snug mt-0.5">Medição das bancadas do 3º pavimento. Cliente pediu revisão do prazo de entrega.</p>
+            </div>
+            <div class="relative">
+              <span class="fc-dot"></span>
+              <p class="text-[.62rem] text-[#8A8478] font-semibold">11/06/2024 · 09h05 · WhatsApp</p>
+              <p class="text-[.82rem] font-semibold text-[#0A0A0A] mt-0.5">Orçamento #2418 aprovado</p>
+              <p class="text-[.75rem] text-[#6B6558] leading-snug mt-0.5">Aprovação por escrito da Cláudia. Pagamento em 2x no boleto.</p>
+            </div>
+            <div class="relative">
+              <span class="fc-dot"></span>
+              <p class="text-[.62rem] text-[#8A8478] font-semibold">29/05/2024 · 16h40 · Juliana Prado</p>
+              <p class="text-[.82rem] font-semibold text-[#0A0A0A] mt-0.5">Ligação de pós-venda</p>
+              <p class="text-[.75rem] text-[#6B6558] leading-snug mt-0.5">Sem pendências no pedido #2377. Cliente elogiou o acabamento.</p>
+            </div>
+          </div>
+        </div>
+        <button onclick="mostrarTela('agenda')" class="w-full mt-3 py-3 rounded-2xl border border-[#0A0A0A] text-[#0A0A0A] text-[.8rem] font-bold">Registrar novo atendimento</button>
+      </div>
+
+      <div data-painel="pedidos" class="hidden space-y-2">
+        <div onclick="ficha_do_cliente_pedido('#2418','Bancada Silestone Blanco Zeus','R$ 18.940,00','Aprovado')" class="fc-card p-3 flex items-center justify-between active:bg-[#FAF7EE]">
+          <div>
+            <p class="text-[.8rem] font-bold text-[#0A0A0A]">#2418 · 11/06/2024</p>
+            <p class="text-[.72rem] text-[#6B6558]">Bancada Silestone Blanco Zeus</p>
+          </div>
+          <div class="text-right">
+            <p class="text-[.8rem] font-bold text-[#0A0A0A]">R$ 18.940</p>
+            <span class="text-[.6rem] font-bold text-[#1B7A44]">Aprovado</span>
+          </div>
+        </div>
+        <div onclick="ficha_do_cliente_pedido('#2401','Soleiras em granito preto São Gabriel','R$ 4.180,00','Em produção')" class="fc-card p-3 flex items-center justify-between active:bg-[#FAF7EE]">
+          <div>
+            <p class="text-[.8rem] font-bold text-[#0A0A0A]">#2401 · 27/05/2024</p>
+            <p class="text-[.72rem] text-[#6B6558]">Soleiras granito São Gabriel</p>
+          </div>
+          <div class="text-right">
+            <p class="text-[.8rem] font-bold text-[#0A0A0A]">R$ 4.180</p>
+            <span class="text-[.6rem] font-bold text-[#A97D0B]">Em produção</span>
+          </div>
+        </div>
+        <div onclick="ficha_do_cliente_pedido('#2377','Revestimento mármore Travertino','R$ 12.600,00','Entregue')" class="fc-card p-3 flex items-center justify-between active:bg-[#FAF7EE]">
+          <div>
+            <p class="text-[.8rem] font-bold text-[#0A0A0A]">#2377 · 02/05/2024</p>
+            <p class="text-[.72rem] text-[#6B6558]">Mármore Travertino Romano</p>
+          </div>
+          <div class="text-right">
+            <p class="text-[.8rem] font-bold text-[#0A0A0A]">R$ 12.600</p>
+            <span class="text-[.6rem] font-bold text-[#6B6558]">Entregue</span>
+          </div>
+        </div>
+        <div id="fcPedidoDet" class="hidden fc-card p-3.5 border-[#D4AF37] bg-[#FFFDF6]">
+          <p class="text-[.62rem] font-bold text-[#A97D0B] tracking-wider">PEDIDO SELECIONADO</p>
+          <p id="fcPedNum" class="text-[.9rem] font-bold text-[#0A0A0A] mt-1"></p>
+          <p id="fcPedItem" class="text-[.76rem] text-[#6B6558]"></p>
+          <div class="flex items-center justify-between mt-2">
+            <p id="fcPedVal" class="text-[.95rem] font-bold text-[#0A0A0A]"></p>
+            <span id="fcPedSt" class="text-[.66rem] font-bold px-2 py-1 rounded-full bg-[#0A0A0A] text-[#D4AF37]"></span>
+          </div>
+          <button onclick="mostrarTela('novo-orcamento')" class="w-full mt-3 py-2.5 rounded-xl bg-[#D4AF37] text-[#0A0A0A] text-[.78rem] font-bold">Duplicar como novo orçamento</button>
+        </div>
+        <button onclick="mostrarTela('novo-orcamento')" class="w-full mt-1 py-3 rounded-2xl bg-[#0A0A0A] text-[#D4AF37] text-[.8rem] font-bold">+ Novo orçamento</button>
+      </div>
+
+      <div data-painel="fotos" class="hidden">
+        <div class="grid grid-cols-3 gap-2" id="fcFotos">
+          <button onclick="ficha_do_cliente_foto('Obra Vila Olímpia — bancada instalada','18/06/2024','#3A342A')" class="rounded-xl overflow-hidden h-24 bg-[#3A342A] flex items-end p-1.5"><span class="text-[.55rem] text-[#FAFAFA] font-semibold text-left leading-tight">Bancada instalada</span></button>
+          <button onclick="ficha_do_cliente_foto('Medição do 3º pavimento','18/06/2024','#6B6558')" class="rounded-xl overflow-hidden h-24 bg-[#6B6558] flex items-end p-1.5"><span class="text-[.55rem] text-[#FAFAFA] font-semibold text-left leading-tight">Medição 3º pav.</span></button>
+          <button onclick="ficha_do_cliente_foto('Amostra Silestone Blanco Zeus','09/06/2024','#C9C1AC')" class="rounded-xl overflow-hidden h-24 bg-[#C9C1AC] flex items-end p-1.5"><span class="text-[.55rem] text-[#0A0A0A] font-semibold text-left leading-tight">Amostra Zeus</span></button>
+          <button onclick="ficha_do_cliente_foto('Soleiras cortadas na fábrica','27/05/2024','#0A0A0A')" class="rounded-xl overflow-hidden h-24 bg-[#0A0A0A] flex items-end p-1.5"><span class="text-[.55rem] text-[#D4AF37] font-semibold text-left leading-tight">Soleiras corte</span></button>
+          <button onclick="ficha_do_cliente_foto('Fachada do galpão do cliente','02/05/2024','#8A8478')" class="rounded-xl overflow-hidden h-24 bg-[#8A8478] flex items-end p-1.5"><span class="text-[.55rem] text-[#FAFAFA] font-semibold text-left leading-tight">Fachada galpão</span></button>
+          <button onclick="ficha_do_cliente_anexar()" class="rounded-xl h-24 border-2 border-dashed border-[#D4AF37] text-[#A97D0B] text-[.62rem] font-bold flex flex-col items-center justify-center gap-1"><span class="text-base">&#128247;</span>Anexar</button>
+        </div>
+        <div id="fcFotoDet" class="hidden fc-card mt-3 p-3.5 border-[#D4AF37] bg-[#FFFDF6]">
+          <div class="flex gap-3">
+            <div id="fcFotoTh" class="w-16 h-16 rounded-xl shrink-0"></div>
+            <div>
+              <p id="fcFotoNome" class="text-[.82rem] font-bold text-[#0A0A0A] leading-snug"></p>
+              <p id="fcFotoData" class="text-[.68rem] text-[#8A8478] mt-1"></p>
+              <p class="text-[.68rem] text-[#8A8478]">Enviado por Rafael Toledo</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div data-painel="docs" class="hidden space-y-2">
+        <div onclick="ficha_do_cliente_doc(this)" class="fc-card p-3 flex items-center gap-3 active:bg-[#FAF7EE]">
+          <span class="w-9 h-9 rounded-lg bg-[#0A0A0A] text-[#D4AF37] flex items-center justify-center text-[.6rem] font-bold">PDF</span>
+          <div class="flex-1">
+            <p class="text-[.8rem] font-semibold text-[#0A0A0A]">Contrato_2418_assinado.pdf</p>
+            <p class="text-[.66rem] text-[#8A8478]">1,4 MB · 12/06/2024</p>
+          </div>
+          <span class="text-[#D4AF37] text-[.7rem] font-bold">ver</span>
+        </div>
+        <div onclick="ficha_do_cliente_doc(this)" class="fc-card p-3 flex items-center gap-3 active:bg-[#FAF7EE]">
+          <span class="w-9 h-9 rounded-lg bg-[#0A0A0A] text-[#D4AF37] flex items-center justify-center text-[.6rem] font-bold">PDF</span>
+          <div class="flex-1">
+            <p class="text-[.8rem] font-semibold text-[#0A0A0A]">Cartao_CNPJ_Marmoraria.pdf</p>
+            <p class="text-[.66rem] text-[#8A8478]">220 KB · 04/03/2024</p>
+          </div>
+          <span class="text-[#D4AF37] text-[.7rem] font-bold">ver</span>
+        </div>
+        <div onclick="ficha_do_cliente_doc(this)" class="fc-card p-3 flex items-center gap-3 active:bg-[#FAF7EE]">
+          <span class="w-9 h-9 rounded-lg bg-[#D4AF37] text-[#0A0A0A] flex items-center justify-center text-[.6rem] font-bold">XLS</span>
+          <div class="flex-1">
+            <p class="text-[.8rem] font-semibold text-[#0A0A0A]">Tabela_medidas_obra.xlsx</p>
+            <p class="text-[.66rem] text-[#8A8478]">86 KB · 18/06/2024</p>
+          </div>
+          <span class="text-[#D4AF37] text-[.7rem] font-bold">ver</span>
+        </div>
+        <button onclick="ficha_do_cliente_anexar()" class="w-full py-3 rounded-2xl border-2 border-dashed border-[#D4AF37] text-[#A97D0B] text-[.8rem] font-bold">+ Anexar documento</button>
+      </div>
+
+    </div>
+
+    <div class="px-4 mt-4">
+      <div class="rounded-2xl bg-[#0A0A0A] p-4">
+        <p class="text-[#D4AF37] text-[.72rem] font-bold tracking-wider">PRÓXIMO COMPROMISSO</p>
+        <p class="text-[#FAFAFA] text-[.86rem] font-semibold mt-1">Sex, 28/06 · 10h00 — Entrega das soleiras</p>
+        <p class="text-[#9C9689] text-[.72rem] mt-0.5">Av. dos Bandeirantes, 2.480 · com Cláudia</p>
+        <div class="flex gap-2 mt-3">
+          <button onclick="mostrarTela('agenda')" class="flex-1 py-2.5 rounded-xl bg-[#D4AF37] text-[#0A0A0A] text-[.76rem] font-bold">Ver na agenda</button>
+          <button onclick="mostrarTela('relatorios')" class="flex-1 py-2.5 rounded-xl border border-[#3A3730] text-[#FAFAFA] text-[.76rem] font-bold">Relatório do cliente</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="fcToast" class="hidden fixed bottom-24 left-1/2 -translate-x-1/2 z-40 bg-[#0A0A0A] text-[#D4AF37] text-[.74rem] font-semibold px-4 py-2.5 rounded-full shadow-lg"></div>
+  </div>
+
+  <script>
+    function ficha_do_cliente_aba(aba, el){
+      document.querySelectorAll('#fcTabs .fc-tab').forEach(b=>b.classList.remove('fc-tab-on'));
+      el.classList.add('fc-tab-on');
+      document.querySelectorAll('[data-painel]').forEach(p=>p.classList.toggle('hidden', p.dataset.painel!==aba));
+    }
+    function ficha_do_cliente_toast(msg){
+      var t=document.getElementById('fcToast');
+      t.textContent=msg; t.classList.remove('hidden');
+      clearTimeout(window.fcT); window.fcT=setTimeout(function(){t.classList.add('hidden')},2200);
+    }
+    function ficha_do_cliente_pedido(num,item,val,st){
+      document.getElementById('fcPedidoDet').classList.remove('hidden');
+      document.getElementById('fcPedNum').textContent='Pedido '+num;
+      document.getElementById('fcPedItem').textContent=item;
+      document.getElementById('fcPedVal').textContent=val;
+      document.getElementById('fcPedSt').textContent=st;
+    }
+    function ficha_do_cliente_foto(nome,data,cor){
+      document.getElementById('fcFotoDet').classList.remove('hidden');
+      document.getElementById('fcFotoNome').textContent=nome;
+      document.getElementById('fcFotoData').textContent=data;
+      document.getElementById('fcFotoTh').style.background=cor;
+    }
+    function ficha_do_cliente_doc(el){
+      el.classList.add('ring-2','ring-[#D4AF37]');
+      ficha_do_cliente_toast('Abrindo '+el.querySelector('p').textContent);
+    }
+    function ficha_do_cliente_anexar(){
+      ficha_do_cliente_toast('Arquivo enviado para a ficha do cliente');
+    }
+  </script>
+</section>
+
     <!-- TELAS -->
   </main>
 
