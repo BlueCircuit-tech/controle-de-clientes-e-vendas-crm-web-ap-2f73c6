@@ -1002,6 +1002,214 @@ tailwind.config = {
   </script>
 </section>
 
+    <section data-tela="agenda" class="hidden">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Sora:wght@300;400;600&display=swap');
+[data-tela="agenda"]{font-family:'Sora',sans-serif;background:#FAFAFA;color:#0A0A0A}
+[data-tela="agenda"] .ag-ttl{font-family:'Fraunces',serif;letter-spacing:-.02em}
+[data-tela="agenda"] .ag-card{background:#fff;border:1px solid #ece7d8;border-radius:18px;box-shadow:0 1px 2px rgba(10,10,10,.05)}
+[data-tela="agenda"] .ag-dia{height:38px;border-radius:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:13px;position:relative}
+[data-tela="agenda"] .ag-dot{width:4px;height:4px;border-radius:99px;background:#D4AF37;position:absolute;bottom:5px}
+[data-tela="agenda"] .ag-chip{font-size:11px;padding:3px 9px;border-radius:99px;border:1px solid #e2dcc8;background:#fff}
+</style>
+
+<div class="px-4 pt-4 pb-28 max-w-[430px] mx-auto">
+
+  <div class="flex items-end justify-between mb-3">
+    <div>
+      <p class="text-[11px] uppercase tracking-[.18em] text-[#8a7c4e]">Sua semana</p>
+      <h2 class="ag-ttl text-[26px] leading-tight">Agenda</h2>
+    </div>
+    <button onclick="agenda_abrirNovo()" class="bg-[#0A0A0A] text-[#D4AF37] text-[13px] px-4 py-2.5 rounded-xl font-semibold">+ Compromisso</button>
+  </div>
+
+  <div class="ag-card p-3 mb-4">
+    <div class="flex items-center justify-between px-1 mb-2">
+      <button onclick="agenda_mes(-1)" class="w-8 h-8 rounded-lg border border-[#ece7d8] text-[#0A0A0A]">‹</button>
+      <span id="agenda-mesLabel" class="ag-ttl text-[15px]">Outubro 2025</span>
+      <button onclick="agenda_mes(1)" class="w-8 h-8 rounded-lg border border-[#ece7d8]">›</button>
+    </div>
+    <div class="grid grid-cols-7 text-center text-[10px] text-[#9a9382] mb-1">
+      <span>D</span><span>S</span><span>T</span><span>Q</span><span>Q</span><span>S</span><span>S</span>
+    </div>
+    <div id="agenda-grid" class="grid grid-cols-7 gap-1"></div>
+    <div class="flex items-center gap-3 mt-3 pt-3 border-t border-[#f1ece0] text-[10px] text-[#6b6455]">
+      <span class="flex items-center gap-1"><i class="inline-block w-2 h-2 rounded-full bg-[#D4AF37]"></i> com compromisso</span>
+      <span class="flex items-center gap-1"><i class="inline-block w-2 h-2 rounded-full bg-[#0A0A0A]"></i> dia selecionado</span>
+    </div>
+  </div>
+
+  <div class="flex items-center justify-between mb-2">
+    <h3 id="agenda-diaLabel" class="ag-ttl text-[16px]">Quarta, 15 de outubro</h3>
+    <span id="agenda-contador" class="ag-chip text-[#6b6455]">0 itens</span>
+  </div>
+
+  <div id="agenda-lista" class="space-y-3"></div>
+
+  <div id="agenda-mapa" class="hidden mt-4 ag-card overflow-hidden">
+    <div class="relative h-40" style="background:
+      repeating-linear-gradient(90deg,#f6f2e6 0 38px,#efe9d6 38px 40px),
+      repeating-linear-gradient(0deg,#f6f2e6 0 30px,#efe9d6 30px 32px);">
+      <svg viewBox="0 0 300 160" class="absolute inset-0 w-full h-full">
+        <path d="M30 130 C90 120 100 60 170 55 S250 40 275 28" fill="none" stroke="#D4AF37" stroke-width="5" stroke-linecap="round"/>
+        <circle cx="30" cy="130" r="7" fill="#0A0A0A"/><circle cx="275" cy="28" r="7" fill="#0A0A0A"/>
+      </svg>
+      <span class="absolute bottom-2 left-3 text-[10px] bg-[#0A0A0A] text-[#FAFAFA] px-2 py-1 rounded-md">Escritório · Vila Olímpia</span>
+    </div>
+    <div class="p-3 flex items-center justify-between">
+      <div>
+        <p id="agenda-mapaDest" class="text-[13px] font-semibold">Construtora Horizonte Ltda</p>
+        <p id="agenda-mapaInfo" class="text-[11px] text-[#6b6455]">12,4 km · 26 min · trânsito moderado</p>
+      </div>
+      <button onclick="agenda_fecharMapa()" class="ag-chip">Fechar</button>
+    </div>
+  </div>
+
+  <div class="mt-5 ag-card p-4">
+    <p class="text-[11px] uppercase tracking-[.16em] text-[#8a7c4e] mb-2">Atalhos do dia</p>
+    <div class="grid grid-cols-2 gap-2">
+      <button onclick="mostrarTela('novo-orcamento')" class="bg-[#D4AF37] text-[#0A0A0A] text-[12px] font-semibold py-3 rounded-xl">Gerar orçamento</button>
+      <button onclick="mostrarTela('clientes')" class="border border-[#0A0A0A] text-[12px] font-semibold py-3 rounded-xl">Ver clientes</button>
+      <button onclick="mostrarTela('painel-de-vendas')" class="border border-[#ece7d8] text-[12px] py-3 rounded-xl">Painel de vendas</button>
+      <button onclick="mostrarTela('relatorios')" class="border border-[#ece7d8] text-[12px] py-3 rounded-xl">Relatório da rota</button>
+    </div>
+  </div>
+</div>
+
+<div id="agenda-modal" class="hidden fixed inset-0 z-50 bg-[#0A0A0A]/60 items-end justify-center">
+  <div class="w-full max-w-[430px] bg-[#FAFAFA] rounded-t-3xl p-5 max-h-[88%] overflow-y-auto">
+    <div class="w-10 h-1 bg-[#ddd6c2] rounded-full mx-auto mb-4"></div>
+    <h3 class="ag-ttl text-[19px] mb-4">Novo compromisso</h3>
+    <label class="text-[11px] text-[#6b6455]">Cliente</label>
+    <select id="agenda-fCliente" class="w-full mb-3 mt-1 p-3 rounded-xl border border-[#e2dcc8] bg-white text-[13px]">
+      <option>Construtora Horizonte Ltda</option>
+      <option>Metalúrgica Bandeirantes</option>
+      <option>Supermercado Bom Preço</option>
+      <option>Auto Peças Ribeiro</option>
+      <option>Hotel Villa Real</option>
+    </select>
+    <label class="text-[11px] text-[#6b6455]">Tipo</label>
+    <div id="agenda-tipos" class="flex flex-wrap gap-2 my-2">
+      <button onclick="agenda_tipo(this,'Visita técnica')" class="ag-chip">📍 Visita técnica</button>
+      <button onclick="agenda_tipo(this,'Reunião')" class="ag-chip">🤝 Reunião</button>
+      <button onclick="agenda_tipo(this,'Entrega')" class="ag-chip">📦 Entrega</button>
+      <button onclick="agenda_tipo(this,'Assinatura')" class="ag-chip">✍️ Assinatura</button>
+    </div>
+    <div class="flex gap-2">
+      <div class="flex-1">
+        <label class="text-[11px] text-[#6b6455]">Data</label>
+        <input id="agenda-fData" type="date" value="2025-10-15" class="w-full mt-1 p-3 rounded-xl border border-[#e2dcc8] bg-white text-[13px]">
+      </div>
+      <div class="w-28">
+        <label class="text-[11px] text-[#6b6455]">Hora</label>
+        <input id="agenda-fHora" type="time" value="10:00" class="w-full mt-1 p-3 rounded-xl border border-[#e2dcc8] bg-white text-[13px]">
+      </div>
+    </div>
+    <label class="text-[11px] text-[#6b6455] block mt-3">Endereço / observação</label>
+    <input id="agenda-fEnd" type="text" placeholder="Av. Paulista, 1842 – cj 91" class="w-full mt-1 p-3 rounded-xl border border-[#e2dcc8] bg-white text-[13px]">
+    <label class="flex items-center gap-3 mt-4 p-3 rounded-xl bg-white border border-[#e2dcc8]">
+      <input id="agenda-fPush" type="checkbox" checked class="w-4 h-4 accent-[#D4AF37]">
+      <span class="text-[12px]">Lembrete push 1h antes <span class="text-[#6b6455]">(e WhatsApp ao cliente)</span></span>
+    </label>
+    <div class="flex gap-2 mt-5">
+      <button onclick="agenda_fecharNovo()" class="flex-1 py-3 rounded-xl border border-[#ddd6c2] text-[13px]">Cancelar</button>
+      <button onclick="agenda_salvar()" class="flex-[1.4] py-3 rounded-xl bg-[#0A0A0A] text-[#D4AF37] text-[13px] font-semibold">Salvar compromisso</button>
+    </div>
+  </div>
+</div>
+
+<div id="agenda-toast" class="hidden fixed bottom-24 left-1/2 -translate-x-1/2 z-[60] bg-[#0A0A0A] text-[#FAFAFA] text-[12px] px-4 py-2.5 rounded-xl shadow-lg"></div>
+
+<script>
+const agenda_ev = {
+  '2025-10-06':[{h:'09:00',t:'Visita técnica',c:'Metalúrgica Bandeirantes',e:'Av. Ipiranga, 1250 – Guarulhos',p:true}],
+  '2025-10-14':[{h:'08:30',t:'Entrega',c:'Supermercado Bom Preço',e:'Rua das Palmeiras, 87 – Osasco',p:true},
+                {h:'16:00',t:'Reunião',c:'Padaria Estrela do Sul',e:'Rua Coronel Xavier, 320',p:false}],
+  '2025-10-15':[{h:'09:15',t:'Reunião',c:'Construtora Horizonte Ltda',e:'Av. Paulista, 1842 – cj 91',p:true},
+                {h:'11:30',t:'Visita técnica',c:'Auto Peças Ribeiro',e:'Rod. Anhanguera, km 23 – Cajamar',p:false},
+                {h:'15:00',t:'Assinatura',c:'Restaurante Sabor Mineiro',e:'Rua Augusta, 940 – Consolação',p:true},
+                {h:'17:30',t:'Entrega',c:'Farmácia São Judas',e:'Av. Jabaquara, 2115 – Saúde',p:false}],
+  '2025-10-17':[{h:'10:00',t:'Reunião',c:'Hotel Villa Real',e:'Al. Santos, 700 – Jardins',p:true}],
+  '2025-10-23':[{h:'14:00',t:'Visita técnica',c:'Transportadora Bandeirante',e:'Rua do Porto, 45 – Santo André',p:false}],
+  '2025-10-28':[{h:'09:00',t:'Entrega',c:'Colégio Monte Alegre',e:'Rua Iguatemi, 88 – Itaim',p:true}]
+};
+const agenda_ic={'Visita técnica':'📍','Reunião':'🤝','Entrega':'📦','Assinatura':'✍️'};
+const agenda_mn=['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
+const agenda_ds=['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado'];
+let agenda_ano=2025, agenda_m=9, agenda_sel='2025-10-15', agenda_novoTipo='Visita técnica';
+
+function agenda_k(a,m,d){return a+'-'+String(m+1).padStart(2,'0')+'-'+String(d).padStart(2,'0');}
+function agenda_mes(x){agenda_m+=x;if(agenda_m>11){agenda_m=0;agenda_ano++;}if(agenda_m<0){agenda_m=11;agenda_ano--;}agenda_renderCal();}
+function agenda_renderCal(){
+  document.getElementById('agenda-mesLabel').textContent=agenda_mn[agenda_m]+' '+agenda_ano;
+  const ini=new Date(agenda_ano,agenda_m,1).getDay(), tot=new Date(agenda_ano,agenda_m+1,0).getDate();
+  let h='';
+  for(let i=0;i<ini;i++)h+='<span></span>';
+  for(let d=1;d<=tot;d++){
+    const k=agenda_k(agenda_ano,agenda_m,d), tem=!!agenda_ev[k], on=k===agenda_sel;
+    h+='<button onclick="agenda_selDia(\''+k+'\')" class="ag-dia '+(on?'bg-[#0A0A0A] text-[#FAFAFA]':'text-[#0A0A0A] hover:bg-[#f2ecdc]')+'">'+d+
+       (tem?'<i class="ag-dot" style="'+(on?'background:#D4AF37':'')+'"></i>':'')+'</button>';
+  }
+  document.getElementById('agenda-grid').innerHTML=h;
+}
+function agenda_selDia(k){agenda_sel=k;agenda_fecharMapa();agenda_renderCal();agenda_renderLista();}
+function agenda_renderLista(){
+  const p=agenda_sel.split('-'), dt=new Date(+p[0],+p[1]-1,+p[2]);
+  document.getElementById('agenda-diaLabel').textContent=agenda_ds[dt.getDay()]+', '+(+p[2])+' de '+agenda_mn[+p[1]-1].toLowerCase();
+  const lista=(agenda_ev[agenda_sel]||[]).slice().sort((a,b)=>a.h.localeCompare(b.h));
+  document.getElementById('agenda-contador').textContent=lista.length+(lista.length===1?' item':' itens');
+  const box=document.getElementById('agenda-lista');
+  if(!lista.length){box.innerHTML='<div class="ag-card p-6 text-center"><p class="text-[13px] text-[#6b6455] mb-3">Nenhum compromisso neste dia.</p><button onclick="agenda_abrirNovo()" class="bg-[#D4AF37] text-[#0A0A0A] text-[12px] font-semibold px-4 py-2.5 rounded-xl">Agendar visita</button></div>';return;}
+  box.innerHTML=lista.map((e,i)=>`
+    <div class="ag-card p-3 flex gap-3">
+      <div class="w-[54px] shrink-0 text-center pt-1">
+        <p class="ag-ttl text-[15px]">${e.h}</p>
+        <p class="text-[10px] text-[#8a7c4e]">${e.t.split(' ')[0]}</p>
+      </div>
+      <div class="flex-1 border-l border-[#f1ece0] pl-3">
+        <div onclick="mostrarTela('ficha-do-cliente')" class="cursor-pointer">
+          <p class="text-[14px] font-semibold leading-tight">${agenda_ic[e.t]||'📅'} ${e.c}</p>
+          <p class="text-[11px] text-[#6b6455] mt-0.5">${e.e}</p>
+        </div>
+        <div class="flex flex-wrap gap-2 mt-2.5">
+          <button onclick="mostrarTela('ficha-do-cliente')" class="ag-chip bg-[#0A0A0A] text-[#D4AF37] border-[#0A0A0A]">Abrir cliente</button>
+          <button onclick="agenda_rota('${e.c}','${e.e}')" class="ag-chip">🗺️ Rota</button>
+          <button id="agenda-sino-${i}" onclick="agenda_push('${agenda_sel}','${e.h}',${i})" class="ag-chip ${e.p?'bg-[#f6efd8] border-[#D4AF37]':''}">${e.p?'🔔 Lembrete on':'🔕 Lembrete'}</button>
+        </div>
+      </div>
+    </div>`).join('');
+}
+function agenda_push(k,h,i){
+  const e=(agenda_ev[k]||[]).find(x=>x.h===h); if(!e)return;
+  e.p=!e.p; agenda_renderLista();
+  agenda_toast(e.p?'Lembrete push ativado para '+h:'Lembrete desativado');
+}
+function agenda_rota(c,e){
+  document.getElementById('agenda-mapaDest').textContent=c;
+  document.getElementById('agenda-mapaInfo').textContent=e+' · 26 min de carro';
+  const m=document.getElementById('agenda-mapa'); m.classList.remove('hidden');
+  m.scrollIntoView({behavior:'smooth',block:'center'});
+}
+function agenda_fecharMapa(){document.getElementById('agenda-mapa').classList.add('hidden');}
+function agenda_abrirNovo(){const m=document.getElementById('agenda-modal');m.classList.remove('hidden');m.classList.add('flex');document.getElementById('agenda-fData').value=agenda_sel;}
+function agenda_fecharNovo(){const m=document.getElementById('agenda-modal');m.classList.add('hidden');m.classList.remove('flex');}
+function agenda_tipo(el,t){agenda_novoTipo=t;[...document.getElementById('agenda-tipos').children].forEach(b=>{b.classList.remove('bg-[#0A0A0A]','text-[#D4AF37]','border-[#0A0A0A]');});el.classList.add('bg-[#0A0A0A]','text-[#D4AF37]','border-[#0A0A0A]');}
+function agenda_salvar(){
+  const k=document.getElementById('agenda-fData').value||agenda_sel;
+  const ev={h:document.getElementById('agenda-fHora').value||'10:00',t:agenda_novoTipo,
+    c:document.getElementById('agenda-fCliente').value,
+    e:document.getElementById('agenda-fEnd').value||'Endereço a confirmar com o cliente',
+    p:document.getElementById('agenda-fPush').checked};
+  (agenda_ev[k]=agenda_ev[k]||[]).push(ev);
+  agenda_sel=k; const p=k.split('-'); agenda_ano=+p[0]; agenda_m=+p[1]-1;
+  agenda_fecharNovo(); agenda_renderCal(); agenda_renderLista();
+  agenda_toast('Compromisso salvo · '+ev.c+' às '+ev.h);
+}
+function agenda_toast(t){const el=document.getElementById('agenda-toast');el.textContent=t;el.classList.remove('hidden');clearTimeout(window.agenda_tt);window.agenda_tt=setTimeout(()=>el.classList.add('hidden'),2200);}
+agenda_renderCal(); agenda_renderLista();
+</script>
+</section>
+
     <!-- TELAS -->
   </main>
 
